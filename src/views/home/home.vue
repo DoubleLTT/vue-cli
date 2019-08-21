@@ -1,19 +1,25 @@
 <template>
-	<div class="container">
-		<NavBar></NavBar>
-
-		<div class="content">
-			<router-view></router-view>
-		</div>		
+	<div class="content">
+		<!-- <NavBar></NavBar> -->
+		<div class="box">
+			<div class="page" id="page1">
+				<Carousel></Carousel>
+				<!-- <img src="../../assets/slider_1_2.jpg"> -->
+			</div>
+			<div class="page">page2</div>
+			<div class="page">page3</div>
+			<div class="page">page4</div>
+		</div>			
 	</div>
 </template>
 
 <script>
 import NavBar from "@/views/navbar/navbar"
+import Carousel from "./component/Carousel"
 
 export default {
 	name : 'Home',
-	components: {NavBar},
+	components: {NavBar,Carousel},
 }
 </script>
 
@@ -22,16 +28,17 @@ export default {
 	margin:0;
 	padding:0;
 }
-.container{
-	width:100%;
-	height:100%;
-}
 .content{
-	position:absolute;
-	left:200px;
-	top:50px;
-	width:calc(100% - 200px);
-	height:calc(100% - 50px);
-	background-color:rgb(245,245,245);
+	width:100%;
+	height:400%;
+}
+.page{
+  width: 100%;
+  height: 100%;
+  overflow:hidden;
+}
+.page img{
+    width: 100%;
+    height:auto;
 }
 </style>

@@ -13,6 +13,7 @@
 			<p>password:<input type="text" name="password"></p>
 			<router-link to="/Home"><button>注册</button></router-link>
 		</div>
+		<button type="button" class="btn btn-primary">原始按钮</button>
 	</div>
 </template>
 
@@ -23,6 +24,7 @@
 			return {
 				swt:true
 			}
-		}
+		},
+			  
 	}
 </script>
