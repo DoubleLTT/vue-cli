@@ -12,7 +12,7 @@
 					<ul class="nav navbar-nav  navbar-right">
 						<li><a href='#'>tab1</a></li>
 						<li><a href='#'>tab2</a></li>
-						<li><a href='#'>tab3</a></li>
+						<li><router-link to="/Login">登录|注册</router-link></li>
 					</ul>
 				</div>
 			</div>

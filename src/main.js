@@ -3,14 +3,13 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import VueResource from 'vue-resource'
 
-import jquery from 'jquery'
-// window.$ = window.jQuery = jquery
 import '../node_modules/bootstrap3/dist/css/bootstrap.css'
 import '../node_modules/bootstrap3/dist/js/bootstrap.js'
 
-Vue.config.productionTip = false
-
+Vue.config.productionTip = false;
+Vue.use(VueResource);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
