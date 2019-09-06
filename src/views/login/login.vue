@@ -3,8 +3,8 @@
 		<p v-on:click="swt=!swt">登录/注册</p>
 		<div class="login" v-if="swt">
 			<p>登录界面</p>
-			<p>name:<input type="text" name="user"></p>
-			<p>password:<input type="text" name="password"></p>
+			<p>name:<input type="text" name="user" v-model="username"></p>
+			<p>password:<input type="text" name="password" v-model="password"></p>
 			<button type="button" class="btn btn-primary" @click="login">登录</button>
 		</div>
 		<div class="register" v-else="!swt">
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+
 	export default {
 		name : 'Login',
 		data () {
@@ -31,9 +32,10 @@
 		},
     methods :{
 		  register (){
-		    this.$http.post(this.url+'register.php',{name:this.username,password:this.password},{emulateJSON:true}).then( res => {
-		      console.log(res);
-		      if(res.ok){
+		    this.$http.post(this.url+'register.php',{name:this.username,password:this.password},{emulateJSON:true}).then( response => {
+		      console.log(response);
+          let res=response.body;
+		      if(res.valid){
 		        alert("注册成功！");
 		        this.$router.push({path:'/'})
           }else{
@@ -42,13 +44,14 @@
         })
       },
       login (){
-        this.$http.post(this.url+'register.php',{name:this.username,password:this.password},{emulateJSON:true}).then( res => {
-          console.log(res);
-          if(res.ok){
-            alert("登录成功！");
+        this.$http.post(this.url+'login.php',{name:this.username,password:this.password},{emulateJSON:true}).then( response => {
+          console.log(response);
+          let res=response.body;
+          if(res.valid){
+            this.error_msg="success!";
             this.$router.push({path:'/'})
           }else{
-            this.error_msg="登录失败"
+            this.error_msg="failed!"
           }
         })
       }

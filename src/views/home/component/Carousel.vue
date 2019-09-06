@@ -27,12 +27,12 @@
 			return {
 				carousel_img:[
 				{
-					url:require("./slider_1_1.jpg"),
+					url:require("../../../assets/slider_1_1.jpg"),
 					alt:"First slide" ,
 					content:"<h3>Open Your Eyes To Pictual1</h3><h1>The Hidden World</h1><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do tempor incididunt ut labore et dolore magna aliqua.</p>"
 				},
 				{
-					url:require("./slider_1_2.jpg"),
+					url:require("../../../assets/slider_1_2.jpg"),
 					alt:"Second slide",
 					content:"<h3>Open Your Eyes To Pictual2</h3><h1>The Hidden World</h1><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do tempor incididunt ut labore et dolore magna aliqua.</p>"
 				}

@@ -5,7 +5,7 @@
 				<Carousel></Carousel>
 			</div>
 			<div class="page">
-				<!--<Places></Places>-->
+				<Places></Places>
 			</div>
 			<div class="page">page3</div>
 			<div class="page">page4</div>		
@@ -26,14 +26,10 @@ export default {
 	},
 	components: {NavBar,Carousel,Places},
 	mounted (){
-		this.getAdmin();
+
 	},
 	methods: {
-		getAdmin (){
-			this.$http.get(this.url+"places.php").then(response => {
-				console.log(response);
-			})
-		}
+
 	}
 }
 </script>
