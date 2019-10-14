@@ -7,6 +7,7 @@ import PlaceDetail from '../views/detail/place_detail'
 Vue.use(Router)
 
 export default new Router({
+  mode:'history',//去掉地址中的#
   routes: [
     {
       path: '/',

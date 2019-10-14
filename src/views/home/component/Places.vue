@@ -22,16 +22,16 @@
         </ul>
       </div>
       <ul class="pager">
-        <li :class="(page==0) ? 'disabled':'' " @click="getPics(0)"><a>&larr;</a></li>
-        <li :class="(page==3) ? 'disabled':'' " @click="getPics(3)"><a>&rarr;</a></li>
+        <li :class="(page==0) ? 'disabled':'' " @click="getPic(0)"><a>&larr;</a></li>
+        <li :class="(page==3) ? 'disabled':'' " @click="getPic(3)"><a>&rarr;</a></li>
       </ul>
 	</div>
 </template>
 <script>
+  import { getPics } from '../../../service/api'
 	export default{
 		data (){
 			return{
-        url: 'http://localhost:8081/myWeb/',
         place_json:[
           // {
           //   id:1,
@@ -60,22 +60,19 @@
 			}
 		},
     mounted (){
-      this.getPics(0); //0：加载热度最高的前3条地点  3：加载第4~6条
+      this.getPic(0); //0：加载热度最高的前3条地点  3：加载第4~6条
     },
     methods :{
-      getPics (page){
+      getPic (page){
         this.page=page;
-        this.$http.post(this.url+"places.php",{action:'getPics',n:page},{emulateJSON:true}).then(response => {
-          console.log(response);
-          let res=response.body;
-          if(res.valid){
-            this.place_json=[];
-            this.place_json=res.pics
-          }else{
-            this.error_msg=res.msg
-          }
+        getPics(page).then(response=>{
+              let res=response.data;
+              if(res.valid){
+                this.place_json=[];
+                this.place_json=res.pics
+              }
         })
-      },
+       },
       detail (id){
         this.$router.push({name:'PlaceDetail',path:'/PlaceDetail',query:{id:id} })
         //this.$router.push({name:'PlaceDetail',path:'/PlaceDetail/:id',params:{id:id} }) //通过params传递的路由参数需要用 :参数名 来占个坑
@@ -89,7 +86,6 @@
   }
   .title{
     text-align: center;
-    margin-top: 40px;
   }
   .glyphicon-star{
     color: #dc3545;
@@ -99,5 +95,8 @@
   }
   .book span{
     float: right;
+  }
+  .pager{
+    margin: 0;
   }
 </style>

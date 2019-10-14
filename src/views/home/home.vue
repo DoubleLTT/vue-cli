@@ -7,7 +7,9 @@
 			<div class="page">
 				<Places></Places>
 			</div>
-			<div class="page">page3</div>
+      <div class="page">
+        <Advice></Advice>
+      </div>
 			<div class="page">page4</div>		
 	</div>
 </template>
@@ -16,6 +18,7 @@
 import NavBar from "./../navbar/navbar"
 import Carousel from "./component/Carousel"
 import Places from "./component/Places"
+import Advice from "./component/Advice"
 
 export default {
 	name : 'Home',
@@ -24,7 +27,7 @@ export default {
 			url: 'http://localhost:8081/myWeb/'
 		}
 	},
-	components: {NavBar,Carousel,Places},
+	components: {NavBar,Carousel,Places,Advice},
 	mounted (){
 
 	},
@@ -47,6 +50,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow:hidden;
+  margin-bottom: 50px;
 }
 .page img{
     width: 100%;

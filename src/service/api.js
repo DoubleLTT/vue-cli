@@ -1,15 +1,15 @@
-const url='http://localhost:8081/';
-import Vue from 'vue'
-import VueResource from 'vue-resource'
-Vue.use(VueResource);
-export const action_login =function (username,password) {
-  window.$http.post(url+'login.php',{name:username,password:password},{emulateJSON:true}).then(
-    response =>{
-      return response
-    }
-  )
-};
+import qs from 'qs'
+import axios from 'axios'
+const url='http://localhost:8081/myWeb/';
 
-export default {
-  name:action_login()
-}
+export const  getPics=(page)=>{
+  return axios({method:'post',url:url+'places.php',data:qs.stringify({action:'getPics',n:page})})
+};
+//picture detail
+export const  getPlaceDetail=(id)=>{
+  return axios({method:'post',url:url+'places.php',data:qs.stringify({action:'getPlaceDetail',placeId:id})})
+};
+//Advice
+export const  getAdvice=()=>{
+  return axios({method:'post',url:url+'articles.php',data:qs.stringify({action:'getArticles'})})
+};
