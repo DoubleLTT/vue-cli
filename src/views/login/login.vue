@@ -1,57 +1,131 @@
 <template>
-	<div>
-		<p v-on:click="swt=!swt">登录/注册</p>
-		<div class="login" v-if="swt">
-			<p>登录界面</p>
-			<p>name:<input type="text" name="user" v-model="username"></p>
-			<p>password:<input type="text" name="password" v-model="password"></p>
-			<button type="button" class="btn btn-primary" @click="login">登录</button>
-		</div>
-		<div class="register" v-else="!swt">
-			<p>注册界面</p>
-			<p>name:<input type="text" name="user" v-model="username"></p>
-			<p>password:<input type="text" name="password" v-model="password"></p>
-			<button type="button" class="btn btn-primary" @click="register">注册</button>
-		</div>
-    <p style="color: red;">{{ error_msg }}</p>
+	<div class="login">
+    <Menu mode="horizontal" theme="light" :active-name="active_name" @on-select="chooseItem">
+      <MenuItem name="login">
+        <Icon type="ios-paper" />
+        登录
+      </MenuItem>
+      <MenuItem name="register">
+        <Icon type="ios-people" />
+        注册
+      </MenuItem>
+    </Menu>
+    <div v-if="swt" class="form-style">
+      <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
+        <FormItem prop="user">
+          <Input type="text" v-model="formLogin.user" placeholder="用户名">
+            <Icon type="ios-person-outline" slot="prepend"></Icon>
+          </Input>
+        </FormItem>
+        <FormItem prop="password">
+          <Input type="password" v-model="formLogin.password" placeholder="密码">
+            <Icon type="ios-lock-outline" slot="prepend"></Icon>
+          </Input>
+        </FormItem>
+        <FormItem>
+          <Button type="primary" @click="userLogin('formLogin')">登录</Button>
+        </FormItem>
+      </Form>
+    </div>
+    <div v-if="!swt" class="form-style">
+      <Form  ref="formRegister" :model="formRegister" :rules="ruleRegister" :label-width="80">
+        <FormItem label="用户名" prop="name">
+          <Input v-model="formRegister.name" placeholder="Enter your name"></Input>
+        </FormItem>
+        <FormItem label="密码" prop="pwd">
+          <Input v-model="formRegister.pwd" placeholder="Enter your password"></Input>
+        </FormItem>
+        <FormItem label="邮箱" prop="mail">
+          <Input v-model="formRegister.mail" placeholder="Enter your e-mail"></Input>
+        </FormItem>
+        <FormItem label="用户名" prop="name">
+          <Input v-model="formRegister.name" placeholder="Enter your name"></Input>
+        </FormItem>
+        <FormItem>
+          <Button type="primary" @click="userRegister('formRegister')">注册</Button>
+        </FormItem>
+      </Form>
+    </div>
 	</div>
 </template>
 
 <script>
+import {register,login} from "../../service/api";
 
-	export default {
+export default {
 		name : 'Login',
 		data () {
 			return {
+        formLogin: {
+          user: '',
+          password: '',
+        },
+        ruleLogin: {
+          user: [
+            { required: true, message: '请输入用户名', trigger: 'blur' }
+          ],
+          password: [
+            {  required: true, message: '请输入密码', trigger: 'blur' }
+          ],
+        },
+        formRegister: {
+          name: '',
+          pwd: '',
+          mail: '',
+        },
+        ruleRegister: {
+
+        },
 				swt:true,
-        error_msg:'',
-        url: 'http://localhost:8081/myWeb/',
-        username:'',
-        password:''
+        active_name:'login',
 			}
 		},
     methods :{
-		  register (){
-		    this.$http.post(this.url+'register.php',{name:this.username,password:this.password},{emulateJSON:true}).then( response => {
-		      console.log(response);
-          let res=response.body;
-		      if(res.valid){
-		        alert("注册成功！");
-		        this.$router.push({path:'/'})
+		  initial(){
+		    this.active_name="login";
+		    this.swt=true;
+      },
+      chooseItem(name){
+        switch (name) {
+          case 'login':
+            this.active_name="login";
+            this.swt=true;
+            break;
+          case 'register':
+            this.active_name="register";
+            this.swt=false;
+            break;
+        }
+      },
+      userRegister (name){
+        register(this.username,this.password).then(response=>{
+          let res=response.data;
+          if(res.valid){
+            alert("注册成功！");
+            this.$router.push({path:'/'})
           }else{
-		        this.error_msg="注册失败"
+
           }
         })
       },
-      login (){
-        this.$http.post(this.url+'login.php',{name:this.username,password:this.password},{emulateJSON:true}).then( response => {
-          console.log(response);
-          let res=response.body;
-          if(res.valid){
-            this.error_msg="success!";
-            this.$router.push({path:'/'})
-          }else{
-            this.error_msg="failed!"
+      userLogin (name){
+        this.$refs[name].validate((valid) => {
+          if (valid) {
+            login(this.formLogin.user,this.formLogin.password).then( response =>{
+              let res=response.data;
+              if(res.valid){
+                this.$Message.success(res.msg);
+                this.$store.commit("loginState",this.formLogin.user);
+                this.$emit("closeModal");
+                if(this.formLogin.user==="admin"){
+                  this.$router.push({path:'/Manager'})
+                }
+              }else {
+                this.$Message.error(res.msg);
+              }
+            })
+          } else {
+            this.$Message.error('请输入用户名和密码');
           }
         })
       }
@@ -59,3 +133,18 @@
 			  
 	}
 </script>
+<style scoped lang="less">
+  .login{
+    margin-top: 10px;
+    text-align: center;
+  }
+  .login .ivu-menu-horizontal .ivu-menu-item{
+    width:50%;
+  }
+  .form-style{
+    padding:50px 50px 10px;
+  .ivu-btn-primary{
+    width:100%;
+  }
+  }
+</style>

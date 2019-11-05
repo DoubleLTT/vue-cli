@@ -1,16 +1,16 @@
 <template>
 	<div class="content">
 		 <NavBar></NavBar>
-			<div class="page">
-				<Carousel></Carousel>
-			</div>
-			<div class="page">
-				<Places></Places>
-			</div>
-      <div class="page">
-        <Advice></Advice>
-      </div>
-			<div class="page">page4</div>		
+			<!--<div class="page">-->
+				<!--<Carousel></Carousel>-->
+			<!--</div>-->
+			<!--<div class="page">-->
+				<!--<Places></Places>-->
+			<!--</div>-->
+      <!--<div class="page">-->
+        <!--<Advice></Advice>-->
+      <!--</div>-->
+			<!--<div class="page">page4</div>		-->
 	</div>
 </template>
 
@@ -24,7 +24,6 @@ export default {
 	name : 'Home',
 	data () {
 		return {
-			url: 'http://localhost:8081/myWeb/'
 		}
 	},
 	components: {NavBar,Carousel,Places,Advice},

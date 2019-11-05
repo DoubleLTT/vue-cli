@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '../views/login/login'
 import Home from '../views/home/home'
 import PlaceDetail from '../views/detail/place_detail'
+import Manager from '../views/manager/manager'
 
 Vue.use(Router)
 
@@ -13,14 +14,6 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home,
-      // redirect :'/About',
-      // children :[
-      // 	{
-      // 		path : '',
-      // 		name : '',
-      // 		component : 
-      // 	}
-      // ]
     },
     {
       path: '/PlaceDetail',
@@ -31,6 +24,11 @@ export default new Router({
       path: '/Login',
       name: 'Login',
       component: Login
+    },
+    {
+      path: '/Manager',
+      name: 'Manager',
+      component: Manager
     },
   ]
 })
