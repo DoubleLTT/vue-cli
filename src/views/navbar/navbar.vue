@@ -16,6 +16,7 @@
         </MenuItem>
       </template>
     </Menu>
+    <p style="float: right;margin:20px 50px;">首页 相册 反馈 关于我们</p>
     <Modal
       v-model="model"
       :footer-hide="true"

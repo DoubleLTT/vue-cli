@@ -4,9 +4,9 @@
 			<!--<div class="page">-->
 				<!--<Carousel></Carousel>-->
 			<!--</div>-->
-			<!--<div class="page">-->
-				<!--<Places></Places>-->
-			<!--</div>-->
+			<div class="page">
+				<Places></Places>
+			</div>
       <!--<div class="page">-->
         <!--<Advice></Advice>-->
       <!--</div>-->

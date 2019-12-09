@@ -1,31 +1,29 @@
 <template>
-	<div>
-      <div class="title">
-        <h1>Our Most Popular Packges</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut <br>labore et dolore magna aliqua. Ut enim ad minim veniam</p>
-      </div>
-      <div class="container">
-        <ul class="row">
-          <li class="col-md-4"  v-for="(item,index) in place_json">
-            <div class="thumbnail">
-              <div class="imgBox"><img v-bind:src="item.url" alt="缩略图"></div>
-              <div class="caption">
-                <h3>{{item.title}}</h3>
-                <p>{{item.des}} <span style="color:#dc3545;float:right">${{item.price}}</span></p>
-                <p class="book">
-                  <button  class="btn btn-success" @click="detail(item.id)">Book Now</button>
-                  <span v-for="n in item.star" class="glyphicon glyphicon-star"></span>
-                </p>
-              </div>
+  <div class="" style="padding: 40px;">
+    <Tabs :animated="false" type="card">
+      <TabPane label="标签一" icon="md-home">
+        <Row>
+          <Col span="4">
+            <div style="height: 400px; background-color: #f7f7f7;margin-right: 20px">
+              推荐
             </div>
-          </li>
-        </ul>
-      </div>
-      <ul class="pager">
-        <li :class="(page==0) ? 'disabled':'' " @click="getPic(0)"><a>&larr;</a></li>
-        <li :class="(page==3) ? 'disabled':'' " @click="getPic(3)"><a>&rarr;</a></li>
-      </ul>
-	</div>
+          </Col>
+          <Col span="20" >
+            <div style="height: 400px; background-color: #f7f7f7; margin: 5px">
+              <Card style="width:320px">
+                <div style="text-align:center">
+                  <img src="../../../../static/places/dujiangyan.jpg">
+                  <h3>A high quality UI Toolkit based on Vue.js</h3>
+                </div>
+              </Card>
+            </div>
+          </Col>
+        </Row>
+      </TabPane>
+      <TabPane label="标签二" icon="md-home">标签二的内容</TabPane>
+      <TabPane label="标签三" icon="md-home">标签三的内容</TabPane>
+    </Tabs>
+  </div>
 </template>
 <script>
   import { getPics } from '../../../service/api'
@@ -84,19 +82,14 @@
   ul{
     list-style-type: none;
   }
-  .title{
-    text-align: center;
+  .ivu-tabs-bar{
+    margin-bottom:0!important;
   }
-  .glyphicon-star{
-    color: #dc3545;
-    font-size: 20px;
-    padding-left: 5px;
-    top: 5px;
+  .ivu-tabs-bar .ivu-tabs-tab{
+    margin-right: 10px!important;
   }
-  .book span{
-    float: right;
-  }
-  .pager{
-    margin: 0;
+  .demo-tabs-style2 > .ivu-tabs.ivu-tabs-card > .ivu-tabs-bar .ivu-tabs-tab{
+    border-radius: 0;
+    background: #fff;
   }
 </style>
