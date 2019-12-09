@@ -12,11 +12,11 @@
     </Menu>
     <div v-if="swt" class="form-style">
       <Form ref="formLogin" :model="formLogin" :rules="ruleLogin">
-        <FormItem prop="user">
-          <Input type="text" v-model="formLogin.user" placeholder="用户名">
-            <Icon type="ios-person-outline" slot="prepend"></Icon>
-          </Input>
-        </FormItem>
+        <!--<FormItem prop="user">-->
+          <!--<Input type="text" v-model="formLogin.user" placeholder="用户名">-->
+            <!--<Icon type="ios-person-outline" slot="prepend"></Icon>-->
+          <!--</Input>-->
+        <!--</FormItem>-->
         <FormItem prop="password">
           <Input type="password" v-model="formLogin.password" placeholder="密码">
             <Icon type="ios-lock-outline" slot="prepend"></Icon>
@@ -28,18 +28,15 @@
       </Form>
     </div>
     <div v-if="!swt" class="form-style">
-      <Form  ref="formRegister" :model="formRegister" :rules="ruleRegister" :label-width="80">
+      <Form>
+        <FormItem label="邮箱" prop="mail">
+          <Input placeholder="Enter your e-mail"></Input>
+        </FormItem>
         <FormItem label="用户名" prop="name">
-          <Input v-model="formRegister.name" placeholder="Enter your name"></Input>
+          <Input placeholder="Enter your name"></Input>
         </FormItem>
         <FormItem label="密码" prop="pwd">
-          <Input v-model="formRegister.pwd" placeholder="Enter your password"></Input>
-        </FormItem>
-        <FormItem label="邮箱" prop="mail">
-          <Input v-model="formRegister.mail" placeholder="Enter your e-mail"></Input>
-        </FormItem>
-        <FormItem label="用户名" prop="name">
-          <Input v-model="formRegister.name" placeholder="Enter your name"></Input>
+          <Input placeholder="Enter your password"></Input>
         </FormItem>
         <FormItem>
           <Button type="primary" @click="userRegister('formRegister')">注册</Button>
@@ -142,7 +139,7 @@ export default {
     width:50%;
   }
   .form-style{
-    padding:50px 50px 10px;
+    padding:50px 50px 10px 50px;
   .ivu-btn-primary{
     width:100%;
   }
