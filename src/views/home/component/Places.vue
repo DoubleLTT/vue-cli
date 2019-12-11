@@ -6,13 +6,13 @@
           <i-col span="4">
             <div style="height: 400px; background-color: #f7f7f7;margin-right: 20px;padding:10px 10px;">
               <p style="margin-top: 10px;">级别：
-                <i-select :model.sync="model1" style="width:60%;" size="small" placeholder="所有">
-                  <i-option v-for="item in star" :value="item.value">{{ item.label }}</i-option>
+                <i-select :model.sync="model1" style="width:60%;" size="small" placeholder="所有" @on-change="classSearch">
+                  <i-option v-for="(item,index) in star" :value="item.value" :key="index">{{ item.label }}</i-option>
                 </i-select>
               </p>
               <p style="margin-top: 10px;">区域：
-                <i-select :model.sync="model1" style="width:60%;" size="small" placeholder="区(市)县">
-                  <i-option v-for="item in area" :value="item.value">{{ item.label }}</i-option>
+                <i-select :model.sync="model1" style="width:60%;" size="small" placeholder="区(市)县" @on-change="areaSearch">
+                  <i-option v-for="(item,index) in area" :value="item.value" :key="index">{{ item.label }}</i-option>
                 </i-select>
               </p>
               <p style="margin-top: 10px;">搜索</p>
@@ -21,7 +21,7 @@
           <i-col span="20" >
             <div style="height: 100%; background-color: #f7f7f7;padding-top:20px;">
               <Row type="flex" justify="space-around">
-                <i-col span="7" v-for="item in place_json">
+                <i-col span="7" v-for="(item,index) in place_json" :key="index">
                   <div style="width:100%;border: 1px solid rgb(153, 153, 153);margin-bottom: 20px;">
                     <div style="width:100%;overflow: hidden;"><img :src="item.url" class="image"></div>
                     <p style="margin:0 10px;font-weight:bold;font-size:18px;font-family: 'Poppins', sans-serif;">{{item.name}}<span v-for="n in parseInt(item.star)" style="display: inline-block;float: right;"><Icon type="md-star" color="#f15b5c" size="20"/></span></p>
@@ -46,34 +46,15 @@
 	export default{
 		data (){
 			return{
-        place_json:[
-          // {
-          //   id:1,
-          //   name:'Dubai',
-          //   price:'$500',
-          //   star:5,
-          //   url:require('../../../../static/packages/1.jpg')
-          // },
-          // {
-          //   id:2,
-          //   name:'Thailand',
-          //   price:'$800',
-          //   star:5,
-          //   url:require('../../../../static/packages/2.jpg')
-          // },
-          // {
-          //   id:3,
-          //   name:'England',
-          //   price:'$600',
-          //   star:4,
-          //   url:require('../../../../static/packages/3.jpg')
-          // },
-        ],
+        place_json:[],
         error_msg:'',
         page:0,  //控制翻页按钮是否可点击
         total:0,
         star: [
           {
+            value: '所有',
+            label: '所有'
+          },{
             value: '5A',
             label: '5A'
           },{
@@ -89,17 +70,25 @@
         ],
         area: [
           {
-            value: 'dujiangyan',
+            value: '所有',
+            label: '所有'
+          },{
+            value: '都江堰',
             label: '都江堰'
           },{
-            value: 'jinjiang',
-            label: '锦江'
+            value: '锦江',
+            label: '锦江区'
           },{
-            value: 'qinyang',
-            label: '青羊'
+            value: '青羊',
+            label: '青羊区'
           },
         ],
-        model1: ''
+        model1: '',
+        searchList:{
+          star:'',
+          area:'',
+          name:''
+        }
 			}
 		},
     mounted (){
@@ -107,16 +96,27 @@
     },
     methods :{
       getPic (page){
-        this.total=30;
-        getPics(page).then(response=>{
+        getPics(page,this.searchList.star,this.searchList.area).then(response=>{
               let res=response.data;
               if(res.valid){
                 this.place_json=[];
-                // res.pics.star = res.pics.star.substring(0,1);
-                this.place_json=res.pics
+                this.total=res.total;
+                this.place_json=res.pics;
+              }else{
+                this.place_json=[];
               }
         })
        },
+      classSearch(value){
+        console.log(value);
+        this.searchList.star=value;
+        this.getPic(1);
+      },
+      areaSearch(value){
+        console.log(value);
+        this.searchList.area =value;
+        this.getPic(1);
+      },
       detail (id){
         this.$router.push({name:'PlaceDetail',path:'/PlaceDetail',query:{id:id} })
         //this.$router.push({name:'PlaceDetail',path:'/PlaceDetail/:id',params:{id:id} }) //通过params传递的路由参数需要用 :参数名 来占个坑

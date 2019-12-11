@@ -8,8 +8,8 @@ export const  register=(un,pw)=>{
 export const  login=(un,pw)=>{
   return axios({method:'post',url:url+'login.php',data:qs.stringify({name:un,password:pw})})
 };
-export const  getPics=(page)=>{
-  return axios({method:'post',url:url+'places.php',data:qs.stringify({action:'getPics',n:page})})
+export const  getPics=(page,star,area)=>{
+  return axios({method:'post',url:url+'places.php',data:qs.stringify({action:'getPics',n:page,star:star,area:area})})
 };
 //picture detail
 export const  getPlaceDetail=(id)=>{
