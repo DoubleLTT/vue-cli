@@ -15,6 +15,10 @@ export const  getPics=(page,star,area)=>{
 export const  getPlaceDetail=(id)=>{
   return axios({method:'post',url:url+'places.php',data:qs.stringify({action:'getPlaceDetail',placeId:id})})
 };
+export const  getFoods=(page,menu,area)=>{
+  return axios({method:'post',url:url+'foods.php',data:qs.stringify({action:'getFoods',n:page,menu:menu,area:area})})
+};
+
 //Advice
 export const  getAdvice=()=>{
   return axios({method:'post',url:url+'articles.php',data:qs.stringify({action:'getArticles'})})

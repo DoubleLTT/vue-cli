@@ -1,24 +1,28 @@
 <template>
 	<div class="content">
-		 <NavBar></NavBar>
-			<!--<div class="page">-->
+		<NavBar></NavBar>
+		<div class="page">
+			<div class="" style="padding: 40px;">
+    			<Tabs :animated="false" type="card">
+			      <TabPane label="景点" icon="md-home"><Places></Places></TabPane>
+			      <TabPane label="美食" icon="ios-ice-cream"><Foods></Foods></TabPane>
+			      <TabPane label="路线" icon="md-paw">标签三的内容</TabPane>
+    			</Tabs>
+  			</div>
+		</div>
+		<!--<div class="page">-->
 				<!--<Carousel></Carousel>-->
-			<!--</div>-->
-			<div class="page">
-				<Places></Places>
-			</div>
-      <!--<div class="page">-->
-        <!--<Advice></Advice>-->
-      <!--</div>-->
-			<!--<div class="page">page4</div>		-->
+		<!--</div>-->
 	</div>
 </template>
 
 <script>
 import NavBar from "./../navbar/navbar"
-import Carousel from "./component/Carousel"
 import Places from "./component/Places"
+import Foods from "./component/Foods"
+
 import Advice from "./component/Advice"
+import Carousel from "./component/Carousel"
 
 export default {
 	name : 'Home',
@@ -26,7 +30,7 @@ export default {
 		return {
 		}
 	},
-	components: {NavBar,Carousel,Places,Advice},
+	components: {NavBar,Carousel,Places,Foods,Advice},
 	mounted (){
 
 	},
@@ -43,16 +47,10 @@ export default {
 }
 .content{
 	width:100%;
-	height:400%;
 }
 .page{
   width: 100%;
   height: 100%;
   overflow:hidden;
-  margin-bottom: 50px;
-}
-.page img{
-    width: 100%;
-    height:auto;
 }
 </style>
