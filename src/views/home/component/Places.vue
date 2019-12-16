@@ -14,11 +14,11 @@
                 </i-select>
               </p>
               <p style="margin-top: 15px;">
-                <Input v-model="searchList.name" size="small" suffix="ios-search" placeholder="请输入名称" style="width: auto" clearable @on-blur="nameSearch"/>
+                <Input v-model="searchList.name" size="small" search placeholder="请输入名称查询" style="width: auto" @on-change="nameSearch"/>
               </p>
               <div class="hot_places">
                 <h4 style="font-weight: bold;margin-bottom: 10px;">热门景点</h4>
-                <p>青城山<Divider type="vertical" />都江堰<Divider type="vertical" />锦里<Divider type="vertical" />锦里<Divider type="vertical" />都江堰<Divider type="vertical" />青城山</p>
+                <p>青城山<Divider type="vertical" />都江堰<Divider type="vertical" />锦里<Divider type="vertical" />锦里<Divider type="vertical" />武侯祠<Divider type="vertical" />青城山</p>
               </div>
             </div>
           </i-col>
@@ -36,7 +36,7 @@
               </Row>
             </div>
             <div style="text-align: center;margin-top: 10px;">
-              <Page :total="total" :page-size="6" :current="1" @on-change="getPic" show-total></Page>
+              <Page :total="total" :page-size="6" :current="current" @on-change="getPic" show-total></Page>
             </div>
           </i-col>
     </Row>
@@ -51,6 +51,7 @@
         error_msg:'',
         page:0,  //控制翻页按钮是否可点击
         total:0,
+        current:1,
         star: [
           {
             value: '所有',
@@ -92,8 +93,18 @@
             value: '成华',
             label: '成华区'
           },{
+            value: '新都',
+            label: '新都区'
+          },{
+            value: '温江',
+            label: '温江区'
+          },{
             value: '双流',
-            label: '双流区'
+            label: '双流县'
+          },
+          {
+            value: '新津',
+            label: '新津县'
           },{
             value: '天府新区',
             label: '天府新区'
@@ -103,6 +114,15 @@
           },{
             value: '大邑',
             label: '大邑县'
+          },{
+            value: '崇州',
+            label: '崇州'
+          },{
+            value: '彭州',
+            label: '彭州'
+          },{
+            value: '邛崃',
+            label: '邛崃'
           },
         ],
         model1: '',
@@ -118,7 +138,10 @@
     },
     methods :{
       getPic (page){
-        getPics(page,this.searchList.star,this.searchList.area).then(response=>{
+        this.current=page;
+        this.error_msg="";
+        this.total=0;
+        getPics(page,this.searchList.star,this.searchList.area,this.searchList.name).then(response=>{
               let res=response.data;
               if(res.valid){
                 this.place_json=[];
@@ -131,17 +154,18 @@
         })
        },
       classSearch(value){
-        console.log(value);
         this.searchList.star=value;
+        this.current=1;
         this.getPic(1);
       },
       areaSearch(value){
-        console.log(value);
         this.searchList.area =value;
+        this.current=1;
         this.getPic(1);
       },
-      nameSearch(){
-        console.log(this.searchList.name)
+      nameSearch(value){
+        this.current=1;
+        this.getPic(1);
       },
       detail (id){
         this.$router.push({name:'PlaceDetail',path:'/PlaceDetail',query:{id:id} })
