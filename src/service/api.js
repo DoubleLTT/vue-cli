@@ -15,10 +15,13 @@ export const  getPics=(page,star,area,name)=>{
 export const  getPlaceDetail=(id)=>{
   return axios({method:'post',url:url+'places.php',data:qs.stringify({action:'getPlaceDetail',placeId:id})})
 };
-export const  getFoods=(page,menu,area)=>{
-  return axios({method:'post',url:url+'foods.php',data:qs.stringify({action:'getFoods',n:page,menu:menu,area:area})})
+export const  getFoods=(page,menu,area,name)=>{
+  return axios({method:'post',url:url+'foods.php',data:qs.stringify({action:'getFoods',n:page,menu:menu,area:area,name:name})})
 };
-
+//food detail
+export const  getFoodDetail=(id)=>{
+  return axios({method:'post',url:url+'foods.php',data:qs.stringify({action:'getFoodDetail',foodId:id})})
+};
 //Advice
 export const  getAdvice=()=>{
   return axios({method:'post',url:url+'articles.php',data:qs.stringify({action:'getArticles'})})

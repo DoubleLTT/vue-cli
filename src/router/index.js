@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Login from '../views/login/login'
 import Home from '../views/home/home'
 import PlaceDetail from '../views/detail/place_detail'
+import FoodDetail from '../views/detail/food_detail'
 import Manager from '../views/manager/manager'
 
 Vue.use(Router)
@@ -19,6 +20,11 @@ export default new Router({
       path: '/PlaceDetail',
       name: 'PlaceDetail',
       component: PlaceDetail
+    },
+    {
+      path: '/FoodDetail',
+      name: 'FoodDetail',
+      component: FoodDetail
     },
     {
       path: '/Login',

@@ -14,11 +14,11 @@
                 </i-select>
               </p>
               <p style="margin-top: 15px;">
-                <Input v-model="searchList.name" size="small" suffix="ios-search" placeholder="请输入名称" style="width: auto" clearable @on-blur="nameSearch"/>
+                <Input v-model="searchList.name" size="small" suffix="ios-search" placeholder="请输入名称" style="width: auto" clearable @on-change="nameSearch"/>
               </p>
               <div class="hot_places">
                 <h4 style="font-weight: bold;margin-bottom: 10px;">热门美食</h4>
-                <p>青城山<Divider type="vertical" />都江堰<Divider type="vertical" />锦里<Divider type="vertical" />锦里<Divider type="vertical" />都江堰<Divider type="vertical" />青城山</p>
+                <p>火锅<Divider type="vertical" />川菜<Divider type="vertical" />烤鱼<Divider type="vertical" />小吃<Divider type="vertical" />海鲜<Divider type="vertical" />烤肉</p>
               </div>
             </div>
           </i-col>
@@ -27,7 +27,7 @@
               <p class="error_msg">{{this.error_msg}}</p>
               <Row type="flex" justify="space-around">
                 <i-col span="7" v-for="(item,index) in food_json" :key="index">
-                  <div class="place">
+                  <div class="place" @click="detail(item.id)">
                     <div style="width:100%;height:65%;overflow: hidden;"><img :src="item.url" class="image"></div>
                     <p class="place_name">{{item.name}}<span class="float_right">{{item.menu}}</span></p>
                     <p class="place_address"><Icon type="ios-pin" />{{item.address}}</p>
@@ -36,7 +36,7 @@
               </Row>
             </div>
             <div style="text-align: center;margin-top: 10px;">
-              <Page :total="total" :page-size="6" :current="1" @on-change="getFood" show-total></Page>
+              <Page :total="total" :page-size="6" :current="current" @on-change="getFood" show-total></Page>
             </div>
           </i-col>
     </Row>
@@ -51,6 +51,7 @@
         error_msg:'',
         page:0,  //控制翻页按钮是否可点击
         total:0,
+        current:1,
         menu: [
           {
             value: '所有',
@@ -118,17 +119,16 @@
     },
     methods :{
       getFood (page){
-        getFoods(page,this.searchList.menu,this.searchList.area,).then(response=>{
-              this.total=0;
-              this.error_msg="";
+          this.current=page;
+          this.error_msg="";
+          this.total=0;
+          this.food_json=[];
+        getFoods(page,this.searchList.menu,this.searchList.area,this.searchList.name).then(response=>{
               let res=response.data;
               if(res.valid){
-                  console.log(res);
-                this.food_json=[];
                 this.total=res.total;
                 this.food_json=res.foods;
               }else{
-                this.food_json=[];
                 this.total=0;
                 this.error_msg="没有数据";
               }
@@ -136,19 +136,20 @@
        },
       classSearch(value){
         this.searchList.menu=value;
+        this.current=1;
         this.getFood(1);
       },
       areaSearch(value){
-        console.log(value);
         this.searchList.area =value;
+        this.current=1;
         this.getFood(1);
       },
-      nameSearch(){
-        this.searchList.name = value;
+      nameSearch(value){
+        this.current=1;
         this.getFood(1);
       },
       detail (id){
-        this.$router.push({name:'PlaceDetail',path:'/PlaceDetail',query:{id:id} })
+        this.$router.push({name:'FoodDetail',path:'/FoodDetail',query:{id:id} })
       }
     }
   }

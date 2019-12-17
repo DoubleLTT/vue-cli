@@ -27,7 +27,7 @@
               <p class="error_msg">{{this.error_msg}}</p>
               <Row type="flex" justify="space-around">
                 <i-col span="7" v-for="(item,index) in place_json" :key="index">
-                  <div class="place">
+                  <div class="place" @click="detail(item.id)">
                     <div style="width:100%;overflow: hidden;"><img :src="item.url" class="image"></div>
                     <p class="place_name">{{item.name}}<span v-for="n in parseInt(item.star)" class="float_right"><Icon type="md-star" color="#f15b5c" size="20"/></span></p>
                     <p style="margin:10px"><Icon type="ios-pin" />{{item.address}} <span class="float_right">{{item.area}}</span></p>
@@ -141,14 +141,13 @@
         this.current=page;
         this.error_msg="";
         this.total=0;
+        this.place_json=[];
         getPics(page,this.searchList.star,this.searchList.area,this.searchList.name).then(response=>{
               let res=response.data;
               if(res.valid){
-                this.place_json=[];
                 this.total=res.total;
                 this.place_json=res.pics;
               }else{
-                this.place_json=[];
                 this.error_msg="没有数据";
               }
         })
