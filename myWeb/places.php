@@ -33,19 +33,17 @@ function getPics($item,$row){
 }
 function getPicsDetail($item,$row){
     $item -> id = $row['id'];
-    $item -> title = $row['title'];
-    $item -> url = $row['pic'];
-    $item -> price = $row['price'];
-    $item -> des = $row['des'];
-    $item -> star = $row['star'];
-    $item -> detail_des = $row['detail_des'];
-    $item -> article = $row['content'];
-    $item -> says = $row['saynum'];
+    $item -> star = $row['class'];
+    $item -> address = $row['address'];
+    $item -> name = $row['name'];
+    $item -> area = $row['area'];
+    $item -> url = $row['img'];
     return $item;
 }
 $action=$_POST['action'];
 $sql1="1=1";
 $sql2="1=1";
+$sql3="1=1";
 
 if ($action=='getPics'){
     //查询所有地点
@@ -61,35 +59,40 @@ if ($action=='getPics'){
         $areas=$_POST['area'];
         $sql2 = "area = '$areas'";
     }
-    $sql = "select * from cd_places WHERE {$sql1} AND {$sql2} LIMIT $start,6";
-    $total_sql = "select * from cd_places WHERE {$sql1} AND {$sql2}";
+    if(!empty($_POST['name'])){
+        //按区域查询
+        $names=$_POST['name'];
+        $sql3 = "name like '%{$names}%'";
+    }
+    $sql = "select * from cd_places WHERE {$sql1} AND {$sql2} AND {$sql3} LIMIT $start,6";
+    $total_sql = "select * from cd_places WHERE {$sql1} AND {$sql2} AND {$sql3}";
     //echo $sql;
-}
-//else{
-//    $id=$_POST['placeId'];   //获取地点详情
-//    $sql="select * from cd_places WHERE id='$id' ";
-//}
+}else{
+       $id=$_POST['placeId'];   //获取地点详情
+       $sql="select * from cd_places WHERE id='$id' ";
+   }
 
 $result = mysqli_query($conn,$sql);
-$total_result = mysqli_query($conn,$total_sql);
 
 $res=['valid'=>false,'msg'=>'','total'=>0,'pics'=>array()];
-if(mysqli_num_rows($total_result) > 0){
-    while($row = mysqli_fetch_assoc($total_result)){
-        $res['total']++;
-    }
-}
 
 if(mysqli_num_rows($result) > 0){
     $res['valid']=true;
     if ($action=='getPics'){
+        $total_result = mysqli_query($conn,$total_sql);
+        if(mysqli_num_rows($total_result) > 0){
+            while($row = mysqli_fetch_assoc($total_result)){
+                $res['total']++;
+            }
+        }
         while($row = mysqli_fetch_assoc($result)){
             $place=new Place();
             array_push($res['pics'],getPics($place,$row));
         }
     }else{
-        $place=new PlaceDetail();
+        $place=new Place();
         $row = mysqli_fetch_assoc($result);
+        $res['total']=1;
         array_push($res['pics'],getPicsDetail($place,$row));
     }
 }else{
