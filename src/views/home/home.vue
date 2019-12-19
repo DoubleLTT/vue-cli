@@ -6,7 +6,7 @@
     			<Tabs :animated="false" type="card">
 			      <TabPane label="景点" icon="md-home"><Places></Places></TabPane>
 			      <TabPane label="美食" icon="ios-ice-cream"><Foods></Foods></TabPane>
-			      <TabPane label="路线" icon="md-paw">标签三的内容</TabPane>
+            <TabPane label="行程" icon="md-paw"><Routes></Routes></TabPane>
     			</Tabs>
   			</div>
 		</div>
@@ -20,6 +20,7 @@
 import NavBar from "./../navbar/navbar"
 import Places from "./component/Places"
 import Foods from "./component/Foods"
+import Routes from "./component/Routes"
 
 import Advice from "./component/Advice"
 import Carousel from "./component/Carousel"
@@ -30,7 +31,7 @@ export default {
 		return {
 		}
 	},
-	components: {NavBar,Carousel,Places,Foods,Advice},
+	components: {NavBar,Carousel,Places,Foods,Routes,Advice},
 	mounted (){
 
 	},
