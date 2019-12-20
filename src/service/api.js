@@ -8,19 +8,23 @@ export const  register=(un,pw)=>{
 export const  login=(un,pw)=>{
   return axios({method:'post',url:url+'login.php',data:qs.stringify({name:un,password:pw})})
 };
+//picture
 export const  getPics=(page,star,area,name)=>{
   return axios({method:'post',url:url+'places.php',data:qs.stringify({action:'getPics',n:page,star:star,area:area,name:name})})
 };
-//picture detail
 export const  getPlaceDetail=(id)=>{
   return axios({method:'post',url:url+'places.php',data:qs.stringify({action:'getPlaceDetail',placeId:id})})
 };
+//food
 export const  getFoods=(page,menu,area,name)=>{
   return axios({method:'post',url:url+'foods.php',data:qs.stringify({action:'getFoods',n:page,menu:menu,area:area,name:name})})
 };
-//food detail
 export const  getFoodDetail=(id)=>{
   return axios({method:'post',url:url+'foods.php',data:qs.stringify({action:'getFoodDetail',foodId:id})})
+};
+//route
+export const  getRoutes=(page)=>{
+  return axios({method:'post',url:url+'routes.php',data:qs.stringify({action:'getRoutes',n:page})})
 };
 //Advice
 export const  getAdvice=()=>{

@@ -1,13 +1,24 @@
 <template>
   <div class="" style="padding: 20px;">
     <Row>
-      <i-col span="6">
+      <i-col span="7">
         <div class="left">
-          <p style="margin-top: 15px;">行程天数：
-            <i-select :model.sync="model1" style="width:70%;" size="small" placeholder="所有" @on-change="classSearch">
-              <i-option v-for="(item,index) in star" :value="item.value" :key="index">{{ item.label }}</i-option>
-            </i-select>
-          </p>
+          <div style="margin-top: 15px;">
+            <span>行程天数：</span>
+            <Checkbox v-model="single" @on-change="checkDaysChange">不限</Checkbox>
+            <Checkbox-group v-model="checkDays" @on-change="checkDaysChange" style="display: inline-block">
+              <Checkbox label="1天"></Checkbox>
+              <Checkbox label="2天"></Checkbox>
+              <Checkbox label="3天"></Checkbox>
+              <Checkbox label="5天"></Checkbox>
+              <Checkbox label="7天"></Checkbox>
+            </Checkbox-group>
+            <!--<ul style="width:70%;display: inline-block">-->
+              <!--<li v-for="(item,index) in days" :key="index" @click="searchDay(index)">-->
+                <!--<a href="#">{{ item.value }}</a>-->
+              <!--</li>-->
+            <!--</ul>-->
+          </div>
           <p style="margin-top: 15px;">行程亮点：
             <i-select :model.sync="model1" style="width:70%;" size="small" placeholder="区(市)县" @on-change="areaSearch">
               <i-option v-for="(item,index) in area" :value="item.value" :key="index">{{ item.label }}</i-option>
@@ -22,62 +33,37 @@
           </div>
         </div>
       </i-col>
-      <i-col span="18" >
+      <i-col span="17" >
         <div class="right">
           <p class="error_msg">{{this.error_msg}}</p>
-          <div class="place" @click="detail(1)">
-            <img src="../../../../static/routes/wenhua.jpg" class="image">
-            <div style="position: relative;height:100%;">
-              <h1>公园与博物馆，成都漫步1日游</h1>
-              <p>秀外慧中的成都，有众多的公园与博物馆。热闹喧嚣的景点不再想去，那就去逛逛这里吧。</p>
-              <p style="position: absolute;bottom: 0;">标签：城市观光 祈福 逛公园 踏青 游览园林 城市</p>
+          <div class="place" @click="detail(1)" v-for="(item,index) in route_json" :key="index">
+            <img :src="item.url" class="image">
+            <div style="height:100%;padding: 10px">
+              <h1>{{ item.title }}</h1>
+              <p style="margin-top: 10px">{{ item.des }}</p>
+              <p style="position: absolute;bottom: 10px;left:190px;"><span style="color:#999">行程标签：</span>{{ item.ps }}</p>
             </div>
           </div>
-          <!--<Row type="flex" justify="space-around">-->
-            <!--<i-col span="7" v-for="(item,index) in place_json" :key="index">-->
-              <!--<div class="place" @click="detail(item.id)">-->
-                <!--<div style="width:100%;overflow: hidden;"><img :src="item.url" class="image"></div>-->
-                <!--<p class="place_name">{{item.name}}<span v-for="n in parseInt(item.star)" class="float_right"><Icon type="md-star" color="#f15b5c" size="20"/></span></p>-->
-                <!--<p style="margin:10px"><Icon type="ios-pin" />{{item.address}} <span class="float_right">{{item.area}}</span></p>-->
-              <!--</div>-->
-            <!--</i-col>-->
-          <!--</Row>-->
         </div>
         <div style="text-align: center;margin-top: 10px;">
-          <Page :total="total" :page-size="6" :current="current" @on-change="getPic" show-total></Page>
+          <Page :total="total" :page-size="4" :current="current" @on-change="getRoute" show-total></Page>
         </div>
       </i-col>
     </Row>
   </div>
 </template>
 <script>
-  import { getPics } from '../../../service/api'
+  import { getRoutes } from '../../../service/api'
   export default{
     data (){
       return{
-        place_json:[],
+        route_json:[],
         error_msg:'',
         page:0,  //控制翻页按钮是否可点击
         total:0,
         current:1,
-        star: [
-          {
-            value: '所有',
-            label: '所有'
-          },{
-            value: '5A',
-            label: '5A'
-          },{
-            value: '4A',
-            label: '4A'
-          },{
-            value: '3A',
-            label: '3A'
-          },{
-            value: '2A',
-            label: '2A'
-          },
-        ],
+        single:true,
+        checkDays: [],
         area: [
           {
             value: '所有',
@@ -142,23 +128,31 @@
       }
     },
     mounted (){
-      this.getPic(1); //1：前6条地点  2：加载第6~12条
+      this.getRoute(1); //1：前6条地点  2：加载第6~12条
     },
     methods :{
-      getPic (page){
+      getRoute (page){
         this.current=page;
         this.error_msg="";
         this.total=0;
-        this.place_json=[];
-        getPics(page,this.searchList.star,this.searchList.area,this.searchList.name).then(response=>{
+        this.route_json=[];
+        getRoutes(page).then(response=>{
           let res=response.data;
           if(res.valid){
             this.total=res.total;
-            this.place_json=res.pics;
+            this.route_json=res.routes;
           }else{
             this.error_msg="没有数据";
           }
         })
+      },
+      checkDaysChange(value){
+        console.log(value);
+        if(typeof value === "boolean"){
+          this.checkDays=[];
+        }else{
+          this.single=false;
+        }
       },
       classSearch(value){
         this.searchList.star=value;
@@ -184,6 +178,25 @@
 <style scoped>
   ul{
     list-style-type: none;
+    padding-top:15px;
+    height:30px;
+  }
+  ul li{
+    margin-right: 6px;
+    cursor: pointer;
+    float: left;
+  }
+  li a{
+    padding:2px 3px;
+  }
+  li a:hover,
+  li a:active{
+    color:#fff;
+    background-color: dodgerblue;
+  }
+  li:nth-child(1) a{
+    color:#fff;
+    background-color: dodgerblue;
   }
   .left{
     height: 400px;
@@ -207,6 +220,7 @@
     padding-bottom: 15px;
   }
   .place{
+    position: relative;
     width:100%;
     border: 1px solid rgb(153, 153, 153);
     margin-bottom: 20px;

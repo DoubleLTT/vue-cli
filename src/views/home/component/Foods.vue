@@ -115,7 +115,7 @@
       }
     },
     mounted (){
-      this.getFood(1); //1：前6条地点  2：加载第6~12条
+      //this.getFood(1); //1：前6条地点  2：加载第6~12条
     },
     methods :{
       getFood (page){

@@ -4,12 +4,12 @@
       <i-col span="4">
             <div class="left">
               <p style="margin-top: 15px;">级别：
-                <i-select :model.sync="model1" style="width:70%;" size="small" placeholder="所有" @on-change="classSearch">
+                <i-select v-model="model1" style="width:70%;" size="small" placeholder="所有" @on-change="classSearch">
                   <i-option v-for="(item,index) in star" :value="item.value" :key="index">{{ item.label }}</i-option>
                 </i-select>
               </p>
               <p style="margin-top: 15px;">区域：
-                <i-select :model.sync="model1" style="width:70%;" size="small" placeholder="区(市)县" @on-change="areaSearch">
+                <i-select v-model="model1" style="width:70%;" size="small" placeholder="区(市)县" @on-change="areaSearch">
                   <i-option v-for="(item,index) in area" :value="item.value" :key="index">{{ item.label }}</i-option>
                 </i-select>
               </p>
