@@ -26,6 +26,9 @@ export const  getFoodDetail=(id)=>{
 export const  getRoutes=(page)=>{
   return axios({method:'post',url:url+'routes.php',data:qs.stringify({action:'getRoutes',n:page})})
 };
+export const  getRouteDetail=(id)=>{
+  return axios({method:'post',url:url+'routes.php',data:qs.stringify({action:'getRouteDetail',routeId:id})})
+};
 //Advice
 export const  getAdvice=()=>{
   return axios({method:'post',url:url+'articles.php',data:qs.stringify({action:'getArticles'})})

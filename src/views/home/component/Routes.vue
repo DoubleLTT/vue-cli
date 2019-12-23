@@ -4,29 +4,38 @@
       <i-col span="7">
         <div class="left">
           <div style="margin-top: 15px;">
-            <span>行程天数：</span>
-            <Checkbox v-model="single" @on-change="checkDaysChange">不限</Checkbox>
-            <Checkbox-group v-model="checkDays" @on-change="checkDaysChange" style="display: inline-block">
+            <span style="float: left">行程天数：</span>
+            <Checkbox-group v-model="checkDays" size="small" @on-change="checkDaysChange">
+              <Checkbox label="不限"></Checkbox>
               <Checkbox label="1天"></Checkbox>
               <Checkbox label="2天"></Checkbox>
               <Checkbox label="3天"></Checkbox>
               <Checkbox label="5天"></Checkbox>
               <Checkbox label="7天"></Checkbox>
             </Checkbox-group>
-            <!--<ul style="width:70%;display: inline-block">-->
-              <!--<li v-for="(item,index) in days" :key="index" @click="searchDay(index)">-->
-                <!--<a href="#">{{ item.value }}</a>-->
-              <!--</li>-->
-            <!--</ul>-->
           </div>
-          <p style="margin-top: 15px;">行程亮点：
-            <i-select :model.sync="model1" style="width:70%;" size="small" placeholder="区(市)县" @on-change="areaSearch">
-              <i-option v-for="(item,index) in area" :value="item.value" :key="index">{{ item.label }}</i-option>
-            </i-select>
-          </p>
-          <p style="margin-top: 15px;">
-            <Input v-model="searchList.name" size="small" search placeholder="请输入名称查询" style="width: auto" @on-change="nameSearch"/>
-          </p>
+          <div style="margin-top: 15px;">
+            <span style="float: left">行程亮点：</span>
+            <Checkbox-group v-model="light" size="small" @on-change="checkLights">
+              <Checkbox label="不限"></Checkbox>
+              <Checkbox label="古街"></Checkbox>
+              <Checkbox label="人文"></Checkbox>
+              <Checkbox label="游玩"></Checkbox>
+              <Checkbox label="狂欢"></Checkbox>
+              <Checkbox label="郊区"></Checkbox>
+            </Checkbox-group>
+          </div>
+          <div style="margin-top: 15px;">
+            <span style="float: left">景&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点：</span>
+            <Checkbox-group v-model="sence" size="small" @on-change="checkSences">
+              <Checkbox label="不限"></Checkbox>
+              <Checkbox label="锦里古街"></Checkbox>
+              <Checkbox label="宽窄巷子"></Checkbox>
+              <Checkbox label="武侯祠"></Checkbox>
+              <Checkbox label="青城山"></Checkbox>
+              <Checkbox label="都江堰"></Checkbox>
+            </Checkbox-group>
+          </div>
           <div class="hot_places">
             <h4 style="font-weight: bold;margin-bottom: 10px;">热门景点</h4>
             <p>青城山<Divider type="vertical" />都江堰<Divider type="vertical" />锦里<Divider type="vertical" />锦里<Divider type="vertical" />武侯祠<Divider type="vertical" />青城山</p>
@@ -36,7 +45,7 @@
       <i-col span="17" >
         <div class="right">
           <p class="error_msg">{{this.error_msg}}</p>
-          <div class="place" @click="detail(1)" v-for="(item,index) in route_json" :key="index">
+          <div class="place" @click="detail(item.id)" v-for="(item,index) in route_json" :key="index">
             <img :src="item.url" class="image">
             <div style="height:100%;padding: 10px">
               <h1>{{ item.title }}</h1>
@@ -62,64 +71,9 @@
         page:0,  //控制翻页按钮是否可点击
         total:0,
         current:1,
-        single:true,
-        checkDays: [],
-        area: [
-          {
-            value: '所有',
-            label: '所有'
-          },{
-            value: '都江堰',
-            label: '都江堰'
-          },{
-            value: '锦江',
-            label: '锦江区'
-          },{
-            value: '青羊',
-            label: '青羊区'
-          },{
-            value: '武侯',
-            label: '武侯区'
-          },{
-            value: '金牛',
-            label: '金牛区'
-          },{
-            value: '成华',
-            label: '成华区'
-          },{
-            value: '新都',
-            label: '新都区'
-          },{
-            value: '温江',
-            label: '温江区'
-          },{
-            value: '双流',
-            label: '双流县'
-          },
-          {
-            value: '新津',
-            label: '新津县'
-          },{
-            value: '天府新区',
-            label: '天府新区'
-          },{
-            value: '龙泉驿',
-            label: '龙泉驿区'
-          },{
-            value: '大邑',
-            label: '大邑县'
-          },{
-            value: '崇州',
-            label: '崇州'
-          },{
-            value: '彭州',
-            label: '彭州'
-          },{
-            value: '邛崃',
-            label: '邛崃'
-          },
-        ],
-        model1: '',
+        checkDays: ["不限"],
+        light:["不限"],
+        sence:["不限"],
         searchList:{
           star:'',
           area:'',
@@ -147,30 +101,31 @@
         })
       },
       checkDaysChange(value){
-        console.log(value);
-        if(typeof value === "boolean"){
-          this.checkDays=[];
-        }else{
-          this.single=false;
+        if(value[0]==="不限" && value.length!==1){
+          this.checkDays.shift();
+        }else if(value.indexOf("不限") !== -1){
+          this.checkDays=["不限"]
         }
+        console.log(this.checkDays)
       },
-      classSearch(value){
-        this.searchList.star=value;
-        this.current=1;
-        this.getPic(1);
+      checkLights(value){
+        if(value[0]==="不限" && value.length!==1){
+          this.light.shift();
+        }else if(value.indexOf("不限") !== -1){
+          this.light=["不限"]
+        }
+        console.log(this.light)
       },
-      areaSearch(value){
-        this.searchList.area =value;
-        this.current=1;
-        this.getPic(1);
-      },
-      nameSearch(value){
-        this.current=1;
-        this.getPic(1);
+      checkSences(value){
+        if(value[0]==="不限" && value.length!==1){
+          this.sence.shift();
+        }else if(value.indexOf("不限") !== -1){
+          this.sence=["不限"]
+        }
+        console.log(this.sence)
       },
       detail (id){
-        this.$router.push({name:'PlaceDetail',path:'/PlaceDetail',query:{id:id} })
-        //this.$router.push({name:'PlaceDetail',path:'/PlaceDetail/:id',params:{id:id} }) //通过params传递的路由参数需要用 :参数名 来占个坑
+        this.$router.push({name:'RouteDetail',path:'/RouteDetail',query:{id:id} })
       }
     }
   }

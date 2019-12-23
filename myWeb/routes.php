@@ -37,7 +37,7 @@ function getRouteDetail($item,$row){
     $item -> ps = $row['ps'];
     $item -> day = $row['day'];
     $item -> url = $row['img'];
-    $item -> distance = $row['distance'];
+    $item -> distance = $row['distence'];
     $item -> num = $row['num'];
     return $item;
 }
