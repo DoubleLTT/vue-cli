@@ -18,8 +18,17 @@ class Route{
     public $url; //图片地址
 }
 class RouteDetail extends Route{
+    public $place_id;
     public $distance;
     public $num;
+}
+class Place{
+    public $id;
+    public $des;
+    public $name;
+    public $visit_time;
+    public $open_time;
+    public $ticket;
 }
 function getRoute($item,$row){
     $item -> id = $row['id'];
@@ -32,6 +41,7 @@ function getRoute($item,$row){
 }
 function getRouteDetail($item,$row){
     $item -> id = $row['id'];
+    $item -> place_id = $row['place_id'];
     $item -> title = $row['title'];
     $item -> des = $row['des'];
     $item -> ps = $row['ps'];
@@ -39,6 +49,15 @@ function getRouteDetail($item,$row){
     $item -> url = $row['img'];
     $item -> distance = $row['distence'];
     $item -> num = $row['num'];
+    return $item;
+}
+function getPicsDetail($item,$row){
+    $item -> id = $row['id'];
+    $item -> des = $row['des'];
+    $item -> name = $row['name'];
+    $item -> visit_time = $row['visit_time'];
+    $item -> open_time = $row['open_time'];
+    $item -> ticket = $row['ticket'];
     return $item;
 }
 $action=$_POST['action'];
@@ -56,7 +75,7 @@ if ($action=='getRoutes'){
 
 $result = mysqli_query($conn,$sql);
 
-$res=['valid'=>false,'msg'=>'','total'=>0,'routes'=>array()];
+$res=['valid'=>false,'msg'=>'','total'=>0,'routes'=>array(),'places'=>array()];
 
 if(mysqli_num_rows($result) > 0){
     $res['valid']=true;
@@ -72,8 +91,18 @@ if(mysqli_num_rows($result) > 0){
             array_push($res['routes'],getRoute($route,$row));
         }
     }else{
-        $route=new Route();
+        $route=new RouteDetail();
         $row = mysqli_fetch_assoc($result);
+        $arr=explode(',',$row['place_id']);
+        foreach($arr as $value)
+        {
+            $place_sql="select * from cd_places WHERE id='$value' ";
+            $place_result = mysqli_query($conn,$place_sql);
+            $place=new Place();
+            $place_row=mysqli_fetch_assoc($place_result);
+            array_push($res['places'],getPicsDetail($place,$place_row));
+            //print_r($place_sql);
+        }
         $res['total']=1;
         array_push($res['routes'],getRouteDetail($route,$row));
     }
