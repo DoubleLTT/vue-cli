@@ -2,7 +2,7 @@
   <div>
     <NavBar></NavBar>
     <div style="padding:40px;">
-      <p style="cursor: pointer;margin-bottom: 40px;" ><router-link to="/">首页 &gt;</router-link></p>
+      <p style="cursor: pointer;margin-bottom: 10px;" ><router-link to="/">首页 &gt;</router-link></p>
       <Menu mode="horizontal" theme="light" active-name="1" @on-select="changeMenu">
         <MenuItem name="1">
           <Icon type="ios-paper" />
@@ -21,16 +21,21 @@
       </div>
       <div v-else class="details">
         <h2>行程详情</h2>
-        <Timeline style="margin-top: 20px">
-          <TimelineItem>
-            <h2>何时可掇</h2>
-            <p>游玩指南：唐代诗人杜甫在成都的故居，诗人在这里居住了4年。园内亭台林立，古木参天，标志性景观“茅屋故居”，是借鉴川西民居的特点复建的。</p>
-            <p>游玩时间：建议2-3小时</p>
-            <p>开放时间：5月1日-10月31日8:00-19:00；11月1日-次年4月30日8:00-18:00；闭馆前60分钟停止售票。</p>
-          </TimelineItem>
-          <TimelineItem>2</TimelineItem>
-          <TimelineItem>3</TimelineItem>
-        </Timeline>
+        <div v-for="n in days">
+          <h3>第{{n}}天</h3>
+          <Timeline style="margin-top: 20px">
+            <TimelineItem v-for="(item,index) in places[n-1]" :key="index">
+              <div style="float: right;width:160px;height:160px;overflow: hidden;margin-left: 80px;">
+                <img :src=item.url style="width: 100%;height: 100%;">
+              </div>
+              <h2>{{item.name}}</h2>
+              <p>游玩指南：{{item.des}}</p>
+              <p>游玩时间：{{item.visit_time}}</p>
+              <p>开放时间：{{item.open_time}}</p>
+              <p>门票价格：{{item.ticket}}</p>
+            </TimelineItem>
+          </Timeline>
+        </div>
       </div>
     </div>
   </div>
@@ -43,6 +48,8 @@
     data (){
       return{
         details:[],
+        places:[],
+        days:0,
         msg:'',
         swt:true
       }
@@ -61,6 +68,8 @@
           let res=response.data;
           if(res.valid){
             this.details=res.routes;
+            this.places=res.places;
+            this.days=res.places.length;
             console.log(this.details)
           }else{
             alert(res.msg)
@@ -78,7 +87,7 @@
 <style lang="less" scoped>
   .details,
   .introduce{
-    padding: 20px 10px;
+    padding: 20px 100px 0 20px;
     >p{
       margin-bottom: 10px;
     }
@@ -89,5 +98,11 @@
       color:red;
       margin-right: 20px;
     }
+  }
+  .details h2{
+    margin-bottom: 20px;
+  }
+  .details p{
+    margin-bottom: 5px;
   }
 </style>

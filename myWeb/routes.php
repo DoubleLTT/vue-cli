@@ -24,6 +24,7 @@ class RouteDetail extends Route{
 }
 class Place{
     public $id;
+    public $url;
     public $des;
     public $name;
     public $visit_time;
@@ -53,6 +54,7 @@ function getRouteDetail($item,$row){
 }
 function getPicsDetail($item,$row){
     $item -> id = $row['id'];
+    $item -> url = $row['img'];
     $item -> des = $row['des'];
     $item -> name = $row['name'];
     $item -> visit_time = $row['visit_time'];
@@ -93,16 +95,22 @@ if(mysqli_num_rows($result) > 0){
     }else{
         $route=new RouteDetail();
         $row = mysqli_fetch_assoc($result);
-        $arr=explode(',',$row['place_id']);
+        $arr=explode('|',$row['place_id']); // 第1天的景点|第2天的景点|第3天的景点|...
+        $i=0;
         foreach($arr as $value)
         {
-            $place_sql="select * from cd_places WHERE id='$value' ";
-            $place_result = mysqli_query($conn,$place_sql);
-            $place=new Place();
-            $place_row=mysqli_fetch_assoc($place_result);
-            array_push($res['places'],getPicsDetail($place,$place_row));
-            //print_r($place_sql);
+            $arr1=explode(',',$value); //景点之间用,分隔
+            array_push($res['places'],[]);
+            foreach($arr1 as $value1){
+                $place_sql="select * from cd_places WHERE id='$value1' ";
+                $place_result = mysqli_query($conn,$place_sql);
+                $place=new Place();
+                $place_row=mysqli_fetch_assoc($place_result);
+                array_push($res['places'][$i],getPicsDetail($place,$place_row));
+            }
+            $i++;
         }
+        //print_r($res['places']);
         $res['total']=1;
         array_push($res['routes'],getRouteDetail($route,$row));
     }
