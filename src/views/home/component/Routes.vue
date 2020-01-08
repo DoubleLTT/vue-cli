@@ -7,33 +7,33 @@
             <span style="float: left">行程天数：</span>
             <Checkbox-group v-model="checkDays" size="small" @on-change="checkDaysChange">
               <Checkbox label="不限"></Checkbox>
-              <Checkbox label="1天"></Checkbox>
-              <Checkbox label="2天"></Checkbox>
-              <Checkbox label="3天"></Checkbox>
-              <Checkbox label="5天"></Checkbox>
-              <Checkbox label="7天"></Checkbox>
+              <Checkbox label="'1天'">1天</Checkbox>
+              <Checkbox label="'2天'">2天</Checkbox>
+              <Checkbox label="'3天'">3天</Checkbox>
+              <Checkbox label="'5天'">5天</Checkbox>
+              <Checkbox label="'7天'">7天</Checkbox>
             </Checkbox-group>
           </div>
           <div style="margin-top: 15px;">
             <span style="float: left">行程亮点：</span>
             <Checkbox-group v-model="light" size="small" @on-change="checkLights">
               <Checkbox label="不限"></Checkbox>
-              <Checkbox label="古街"></Checkbox>
+              <Checkbox label="公园"></Checkbox>
               <Checkbox label="人文"></Checkbox>
-              <Checkbox label="游玩"></Checkbox>
-              <Checkbox label="狂欢"></Checkbox>
-              <Checkbox label="郊区"></Checkbox>
+              <Checkbox label="户外"></Checkbox>
+              <Checkbox label="城市观光"></Checkbox>
+              <Checkbox label="暑假"></Checkbox>
             </Checkbox-group>
           </div>
           <div style="margin-top: 15px;">
             <span style="float: left">景&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点：</span>
             <Checkbox-group v-model="sence" size="small" @on-change="checkSences">
               <Checkbox label="不限"></Checkbox>
-              <Checkbox label="锦里古街"></Checkbox>
-              <Checkbox label="宽窄巷子"></Checkbox>
-              <Checkbox label="武侯祠"></Checkbox>
-              <Checkbox label="青城山"></Checkbox>
-              <Checkbox label="都江堰"></Checkbox>
+              <Checkbox label="234">建川博物馆</Checkbox>
+              <Checkbox label="227">刘氏庄园</Checkbox>
+              <Checkbox label="229">武侯祠</Checkbox>
+              <Checkbox label="226">青城山</Checkbox>
+              <Checkbox label="225">都江堰</Checkbox>
             </Checkbox-group>
           </div>
           <div class="hot_places">
@@ -75,8 +75,8 @@
         light:["不限"],
         sence:["不限"],
         searchList:{
-          star:'',
-          area:'',
+          day:'',
+          light:'',
           name:''
         }
       }
@@ -90,7 +90,7 @@
         this.error_msg="";
         this.total=0;
         this.route_json=[];
-        getRoutes(page).then(response=>{
+        getRoutes(page,this.searchList.day,this.searchList.light,this.searchList.name).then(response=>{
           let res=response.data;
           if(res.valid){
             this.total=res.total;
@@ -101,12 +101,21 @@
         })
       },
       checkDaysChange(value){
+        let days=[];
         if(value[0]==="不限" && value.length!==1){
           this.checkDays.shift();
         }else if(value.indexOf("不限") !== -1){
           this.checkDays=["不限"]
         }
-        console.log(this.checkDays)
+        console.log(this.checkDays);
+        // for (let i=0;i<this.checkDays.length;i++){
+        //   let day = "'"+this.checkDays[i]+"'";
+        //   days.push(day);
+        // }
+        // this.searchList.day = days.join(',');
+        this.searchList.day = this.checkDays.join(',');
+        console.log(this.searchList.day);
+        this.getRoute(1);
       },
       checkLights(value){
         if(value[0]==="不限" && value.length!==1){
@@ -114,7 +123,10 @@
         }else if(value.indexOf("不限") !== -1){
           this.light=["不限"]
         }
-        console.log(this.light)
+        console.log(this.light);
+        this.searchList.light = this.light.join('|');
+        console.log(this.searchList.light);
+        this.getRoute(1);
       },
       checkSences(value){
         if(value[0]==="不限" && value.length!==1){
@@ -122,7 +134,10 @@
         }else if(value.indexOf("不限") !== -1){
           this.sence=["不限"]
         }
-        console.log(this.sence)
+        console.log(this.sence);
+        this.searchList.name = this.sence.join('|');
+        console.log(this.searchList.name);
+        this.getRoute(1);
       },
       detail (id){
         this.$router.push({name:'RouteDetail',path:'/RouteDetail',query:{id:id} })

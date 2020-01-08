@@ -63,13 +63,34 @@ function getPicsDetail($item,$row){
     return $item;
 }
 $action=$_POST['action'];
+$sql1="1=1";
+$sql2="1=1";
+$sql3="1=1";
 
 if ($action=='getRoutes'){
     //查询所有地点
     $n=$_POST['n']; //n=1：加载热度最高的前4条地点  n=2：加载第4~8条
     $start=($n-1)*4;
-    $sql = "select * from cd_routes LIMIT $start,4";
-    $total_sql = "select * from cd_routes";
+    if(!empty($_POST['day']) && $_POST['day'] !== "不限"){
+            //按天数查询
+            $days=$_POST['day'];
+            $sql1 = "day IN ($days)";
+    }
+    if(!empty($_POST['light']) && $_POST['light'] !== "不限"){
+            //按标签查询
+            $lights=$_POST['light'];
+            $sql2 = "ps REGEXP '$lights'";
+        }
+    if(!empty($_POST['name']) && $_POST['name'] !== "不限"){
+            //按包含景区id查询
+            $names=$_POST['name'];
+            $sql3 = "place_id REGEXP '$names'";
+    }
+
+    $sql = "select * from cd_routes WHERE {$sql1} AND {$sql2} AND {$sql3} LIMIT $start,4";
+    $total_sql = "select * from cd_routes WHERE {$sql1} AND {$sql2} AND {$sql3}";
+//    $sql = "select * from cd_routes LIMIT $start,4";
+//    $total_sql = "select * from cd_routes";
 }else{
        $id=$_POST['routeId'];   //获取路线详情
        $sql="select * from cd_routes WHERE id='$id' ";

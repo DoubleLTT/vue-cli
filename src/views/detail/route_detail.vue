@@ -16,6 +16,7 @@
       <div v-if="swt" v-for="(item,index) in details" :key="index" class="introduce">
         <h1>{{item.title}}</h1>
         <p>天数：<span>{{item.day}}</span>  观光地：<span>{{item.num}}</span>  全程：<span>{{item.distance}}</span></p>
+        <p><span style="color: #999;">包含景点：</span>{{places_name}}</p>
         <p><span style="color: #999;">行程标签：</span>{{item.ps}}</p>
         <p>{{item.des}}</p>
       </div>
@@ -50,6 +51,7 @@
         details:[],
         places:[],
         days:0,
+        places_name:"",
         msg:'',
         swt:true
       }
@@ -65,19 +67,24 @@
       RouteDetail(){
         const routeId=this.$route.query.id;
         getRouteDetail(routeId).then(response=>{
-          let res=response.data;
+          let res=response.data,
+              me=this;
           if(res.valid){
-            this.details=res.routes;
-            this.places=res.places;
-            this.days=res.places.length;
-            console.log(this.details)
+            me.details=res.routes;
+            me.places=res.places;
+            me.days=res.places.length;
+            for (let i=0;i<res.places.length;i++){
+              res.places[i].forEach(function (value) {
+                me.places_name += value.name+" ";
+              })
+            }
+            console.log(this.places_name)
           }else{
             alert(res.msg)
           }
         })
       },
       changeMenu(name){
-        console.log(name);
         this.swt = name === "1";
       }
     }

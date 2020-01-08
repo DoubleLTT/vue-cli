@@ -23,8 +23,8 @@ export const  getFoodDetail=(id)=>{
   return axios({method:'post',url:url+'foods.php',data:qs.stringify({action:'getFoodDetail',foodId:id})})
 };
 //route
-export const  getRoutes=(page)=>{
-  return axios({method:'post',url:url+'routes.php',data:qs.stringify({action:'getRoutes',n:page})})
+export const  getRoutes=(page,day,light,name)=>{
+  return axios({method:'post',url:url+'routes.php',data:qs.stringify({action:'getRoutes',n:page,day:day,light:light,name:name})})
 };
 export const  getRouteDetail=(id)=>{
   return axios({method:'post',url:url+'routes.php',data:qs.stringify({action:'getRouteDetail',routeId:id})})
