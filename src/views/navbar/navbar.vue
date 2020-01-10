@@ -1,22 +1,33 @@
 <template>
 	<div>
-    <Menu mode="horizontal" theme="dark" @on-select="chooseItem" :active-name="active_name">
-      <MenuItem name="login" v-if="!isLogin">
-        <Icon type="md-person" />
-        <span>登录 | 注册</span>
-      </MenuItem>
-      <template v-else>
-        <MenuItem name="logout">
-          <Icon type="ios-people" />
-          退出
+    <div>
+      <Menu mode="horizontal" theme="light" @on-select="chooseItem" :active-name="active_name">
+        <span style="margin-left: 25px">欢迎您访问成都</span><span class="item">Chengdu</span>
+        <MenuItem name="login" v-if="!isLogin" style="margin-right: 32px;">
+          <Icon type="md-person" />
+          <span>登录<Divider type="vertical" />注册</span>
         </MenuItem>
-        <MenuItem name="user">
-          <Icon type="ios-people" />
-           用户：{{ this.username }}
+        <template v-else>
+          <MenuItem name="logout">
+            <Icon type="ios-people" />
+            退出
+          </MenuItem>
+          <MenuItem name="user">
+            <Icon type="ios-people" />
+            用户：{{ this.username }}
+          </MenuItem>
+        </template>
+        <MenuItem name="route" to="/Route">
+          <span>行程</span>
         </MenuItem>
-      </template>
-    </Menu>
-    <!--<p style="float: right;margin:20px 50px;">首页 相册 反馈 关于我们</p>-->
+        <MenuItem name="food" to="/Food">
+          <span>美食</span>
+        </MenuItem>
+        <MenuItem name="place" to="/">
+          <span>景点</span>
+        </MenuItem>
+      </Menu>
+    </div>
     <Modal
       v-model="model"
       :footer-hide="true"
@@ -37,7 +48,7 @@
 		  return{
 		    isLogin: false,
         model:false,
-        active_name:'login',
+        active_name:'place',
         username:''
       }
     },
@@ -77,6 +88,20 @@
 </script>
 
 <style scoped lang="less">
+  .item{
+    margin-left: 15px;
+    color: #ccc;
+    font-size: 20px;
+  }
+  .ivu-menu-horizontal {
+    height: 50px;
+    line-height: 50px;
+    .ivu-menu-item-active,
+    .ivu-menu-item:hover{
+      border-bottom:none!important;
+    }
+  }
+
   .ivu-menu-item{
     float:right;
     .ivu-menu-item>i{

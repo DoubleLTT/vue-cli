@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '../views/login/login'
 import Home from '../views/home/home'
+import Place from '../views/home/component/Places'
+import Food from '../views/home/component/Foods'
+import Route from '../views/home/component/Routes'
 import PlaceDetail from '../views/detail/place_detail'
 import FoodDetail from '../views/detail/food_detail'
 import RouteDetail from '../views/detail/route_detail'
@@ -12,10 +15,15 @@ Vue.use(Router)
 export default new Router({
   mode:'history',//去掉地址中的#
   routes: [
+    // {
+    //   path: '/',
+    //   name: 'Home',
+    //   component: Home,
+    // },
     {
       path: '/',
-      name: 'Home',
-      component: Home,
+      name: 'Place',
+      component: Place
     },
     {
       path: '/PlaceDetail',
@@ -23,9 +31,19 @@ export default new Router({
       component: PlaceDetail
     },
     {
+      path: '/Food',
+      name: 'Food',
+      component: Food
+    },
+    {
       path: '/FoodDetail',
       name: 'FoodDetail',
       component: FoodDetail
+    },
+    {
+      path: '/Route',
+      name: 'Route',
+      component: Route
     },
     {
       path: '/RouteDetail',

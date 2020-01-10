@@ -1,28 +1,37 @@
 <template>
-  <div class="" style="padding: 20px;">
+  <div class="" style="padding:40px 20px;">
     <Row>
       <i-col span="4">
-            <div class="left">
-              <p style="margin-top: 15px;">分类：
+            <div class="left1">
+              <h4 style=" color: #2db7f5;">美食搜索</h4>
+              <p>
+                <span>分类</span>
                 <i-select :model.sync="model1" style="width:70%;" size="small" placeholder="所有" @on-change="classSearch">
                   <i-option v-for="(item,index) in menu" :value="item.value" :key="index">{{ item.label }}</i-option>
                 </i-select>
               </p>
-              <p style="margin-top: 15px;">区域：
+              <p>
+                <span>区域</span>
                 <i-select :model.sync="model1" style="width:70%;" size="small" placeholder="区(市)县" @on-change="areaSearch">
                   <i-option v-for="(item,index) in area" :value="item.value" :key="index">{{ item.label }}</i-option>
                 </i-select>
               </p>
-              <p style="margin-top: 15px;">
+              <p>
                 <Input v-model="searchList.name" size="small" suffix="ios-search" placeholder="请输入名称" style="width: auto" clearable @on-change="nameSearch"/>
               </p>
-              <div class="hot_places">
-                <h4 style="font-weight: bold;margin-bottom: 10px;">热门美食</h4>
-                <p>火锅<Divider type="vertical" />川菜<Divider type="vertical" />烤鱼<Divider type="vertical" />小吃<Divider type="vertical" />海鲜<Divider type="vertical" />烤肉</p>
-              </div>
+              <p><Button type="info" long>搜索</Button></p>
+              <p style="color: #ccc;font-size: 12px;margin-top: 25px;">
+                <span>历史搜索</span>
+                <Tag closable>火锅</Tag>
+                <Tag closable>川菜</Tag>
+              </p>
             </div>
-          </i-col>
-          <i-col span="20" >
+            <div class="left2">
+              <h4 style="color: #f15b5c;">热门美食</h4>
+              <p>火锅<Divider type="vertical" />川菜<Divider type="vertical" />烤鱼<Divider type="vertical" />小吃<Divider type="vertical" />海鲜<Divider type="vertical" />烤肉</p>
+            </div>
+      </i-col>
+      <i-col span="20" >
             <div class="right">
               <p class="error_msg">{{this.error_msg}}</p>
               <Row type="flex" justify="space-around">
@@ -154,24 +163,33 @@
     }
   }
 </script>
-<style scoped>
+<style scoped lang="less">
   ul{
     list-style-type: none;
   }
-  .left{
-    height: 400px;
-    background-color: #f7f7f7;
+  .left1,
+  .left2{
+    background-color: #fff;
     margin-right: 20px;
+    margin-bottom: 20px;
     padding:10px 10px;
+    border: 1px solid #f3f3f3;
+  >p{
+    margin-top: 15px;
+  span{
+    margin-right: 5px;
   }
-  .hot_places{
-    margin-top:30px;
-    border-top:1px dashed rgb(153, 153, 153);
-    padding:10px 5px 0;
+  }
+  }
+  .left1{
+    height: 100%;
+  }
+  .left2{
+    height: 150px;
   }
   .right{
     height: 100%;
-    background-color: #f7f7f7;
+    background-color: #fff;
     padding-top:20px;
   }
   .error_msg{

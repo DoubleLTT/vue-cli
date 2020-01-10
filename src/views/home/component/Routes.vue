@@ -1,32 +1,35 @@
 <template>
-  <div class="" style="padding: 20px;">
+  <div class="" style="padding: 40px 40px 40px 20px;">
     <Row>
       <i-col span="7">
-        <div class="left">
-          <div style="margin-top: 15px;">
-            <span style="float: left">行程天数：</span>
+        <div class="left1">
+          <h4>行程搜索</h4>
+          <div>
+            <span>行程天数:</span>
+            <span style="margin-right: 20px;" @click="daymore=!daymore"><Icon type="md-arrow-dropdown" />更多</span>
             <Checkbox-group v-model="checkDays" size="small" @on-change="checkDaysChange">
               <Checkbox label="不限"></Checkbox>
               <Checkbox label="'1天'">1天</Checkbox>
               <Checkbox label="'2天'">2天</Checkbox>
               <Checkbox label="'3天'">3天</Checkbox>
-              <Checkbox label="'5天'">5天</Checkbox>
-              <Checkbox label="'7天'">7天</Checkbox>
+              <Checkbox label="'5天'" v-if="daymore">5天</Checkbox>
+              <Checkbox label="'7天'" v-if="daymore">7天</Checkbox>
             </Checkbox-group>
           </div>
-          <div style="margin-top: 15px;">
-            <span style="float: left">行程亮点：</span>
+          <div>
+            <span>行程亮点:</span>
+            <span style="margin-right: 20px;" @click="lightmore=!lightmore"><Icon type="md-arrow-dropdown" />更多</span>
             <Checkbox-group v-model="light" size="small" @on-change="checkLights">
               <Checkbox label="不限"></Checkbox>
               <Checkbox label="公园"></Checkbox>
-              <Checkbox label="人文"></Checkbox>
-              <Checkbox label="户外"></Checkbox>
               <Checkbox label="城市观光"></Checkbox>
-              <Checkbox label="暑假"></Checkbox>
+              <Checkbox label="户外" v-if="lightmore"></Checkbox>
+              <Checkbox label="人文" v-if="lightmore"></Checkbox>
+              <Checkbox label="暑假" v-if="lightmore"></Checkbox>
             </Checkbox-group>
           </div>
-          <div style="margin-top: 15px;">
-            <span style="float: left">景&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;点：</span>
+          <div>
+            <span>包含景点:</span>
             <Checkbox-group v-model="sence" size="small" @on-change="checkSences">
               <Checkbox label="不限"></Checkbox>
               <Checkbox label="234">建川博物馆</Checkbox>
@@ -36,10 +39,16 @@
               <Checkbox label="225">都江堰</Checkbox>
             </Checkbox-group>
           </div>
-          <div class="hot_places">
-            <h4 style="font-weight: bold;margin-bottom: 10px;">热门景点</h4>
-            <p>青城山<Divider type="vertical" />都江堰<Divider type="vertical" />锦里<Divider type="vertical" />锦里<Divider type="vertical" />武侯祠<Divider type="vertical" />青城山</p>
-          </div>
+          <div style="margin: 20px auto;width:80%;"><Button type="info" long>搜索</Button></div>
+          <p>
+            <span>历史搜索</span>
+            <Tag closable>1天 公园</Tag>
+            <Tag closable>2天 人文 暑假</Tag>
+          </p>
+        </div>
+        <div class="left2">
+          <h4 style="margin-bottom: 10px;color: #f15b5c;">热门景点</h4>
+          <p>青城山<Divider type="vertical" />都江堰<Divider type="vertical" />锦里<Divider type="vertical" />锦里<Divider type="vertical" />武侯祠<Divider type="vertical" />青城山</p>
         </div>
       </i-col>
       <i-col span="17" >
@@ -67,6 +76,9 @@
     data (){
       return{
         route_json:[],
+        daymore:false,
+        lightmore:false,
+        scenemore:false,
         error_msg:'',
         page:0,  //控制翻页按钮是否可点击
         total:0,
@@ -108,11 +120,6 @@
           this.checkDays=["不限"]
         }
         console.log(this.checkDays);
-        // for (let i=0;i<this.checkDays.length;i++){
-        //   let day = "'"+this.checkDays[i]+"'";
-        //   days.push(day);
-        // }
-        // this.searchList.day = days.join(',');
         this.searchList.day = this.checkDays.join(',');
         console.log(this.searchList.day);
         this.getRoute(1);
@@ -145,70 +152,87 @@
     }
   }
 </script>
-<style scoped>
-  ul{
-    list-style-type: none;
-    padding-top:15px;
-    height:30px;
-  }
-  ul li{
-    margin-right: 6px;
-    cursor: pointer;
-    float: left;
-  }
-  li a{
-    padding:2px 3px;
-  }
-  li a:hover,
-  li a:active{
-    color:#fff;
-    background-color: dodgerblue;
-  }
-  li:nth-child(1) a{
-    color:#fff;
-    background-color: dodgerblue;
-  }
-  .left{
-    height: 400px;
-    background-color: #f7f7f7;
+<style scoped lang="less">
+  /*ul{*/
+    /*list-style-type: none;*/
+    /*padding-top:15px;*/
+    /*height:30px;*/
+  /*}*/
+  /*ul li{*/
+    /*margin-right: 6px;*/
+    /*cursor: pointer;*/
+    /*float: left;*/
+  /*}*/
+  /*li a{*/
+    /*padding:2px 3px;*/
+  /*}*/
+  /*li a:hover,*/
+  /*li a:active{*/
+    /*color:#fff;*/
+    /*background-color: dodgerblue;*/
+  /*}*/
+  /*li:nth-child(1) a{*/
+    /*color:#fff;*/
+    /*background-color: dodgerblue;*/
+  /*}*/
+  .left1,
+  .left2{
+    background-color: #fff;
     margin-right: 20px;
+    margin-bottom: 20px;
     padding:10px 10px;
+    border: 1px solid #f3f3f3;
   }
-  .hot_places{
-    margin-top:30px;
-    border-top:1px dashed rgb(153, 153, 153);
-    padding:10px 5px 0;
+  .left1{
+    height: 100%;
+    h4{
+      color: #2db7f5;
+      margin-bottom: 10px;
+    }
+    >div{
+      margin-bottom: 20px;
+      >span:nth-child(1){
+        float: left;
+        margin-right: 10px;
+        font-weight: bold;
+      }
+      >span:nth-child(2){
+        cursor: pointer;
+        float: right;
+        color:#2b85e4;
+      }
+    }
+    p{
+      font-size: 12px;
+      margin-top: 20px;
+      color:#ccc;
+      span{
+        margin-right: 10px;
+      }
+    }
+  }
+  .left2{
+    height: 150px;
   }
   .right{
     height: 100%;
     padding:0 5px;
-    background-color: #f7f7f7;
   }
   .error_msg{
     height:100%;
     text-align:center;
-    padding-bottom: 15px;
   }
   .place{
     position: relative;
     width:100%;
-    border: 1px solid rgb(153, 153, 153);
+    border: 1px solid #f3f3f3;
+    background-color: #fff;
     margin-bottom: 20px;
     overflow: hidden;
-  }
-  .place_name{
-    margin:0 10px;
-    font-weight:bold;
-    font-size:18px;
-    font-family: 'Poppins', sans-serif;
   }
   .image{
     float: left;
     margin-right: 10px;
     height:auto;
-  }
-  .float_right{
-    display: inline-block;
-    float: right;
   }
 </style>

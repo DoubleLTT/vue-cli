@@ -1,12 +1,15 @@
   <template>
   <div id="app">
+    <NavBar></NavBar>
     <router-view/>
   </div>
 </template>
 
 <script>
+  import NavBar from "../src/views/navbar/navbar"
 export default {
-  name: 'App'
+  name: 'App',
+  components: {NavBar},
 }
 </script>
 
@@ -19,6 +22,7 @@ export default {
   color: #2c3e50;
   marign:0;
   padding:0;
+  background-color: #f8f9fa;
 }
   ul{
     list-style-type: none;

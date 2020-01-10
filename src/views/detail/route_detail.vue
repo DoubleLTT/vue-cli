@@ -1,14 +1,17 @@
 <template>
   <div>
-    <NavBar></NavBar>
-    <div style="padding:40px;">
-      <p style="cursor: pointer;margin-bottom: 10px;" ><router-link to="/">首页 &gt;</router-link></p>
-      <Menu mode="horizontal" theme="light" active-name="1" @on-select="changeMenu">
-        <MenuItem name="1">
+    <!--<NavBar></NavBar>-->
+    <div style="padding:20px;">
+      <Breadcrumb separator=">" style="margin-bottom: 10px;">
+        <BreadcrumbItem to="/Route"><span style="color: #2d8cf0;">行程</span></BreadcrumbItem>
+        <BreadcrumbItem>{{name}}</BreadcrumbItem>
+      </Breadcrumb>
+      <Menu mode="horizontal" theme="light" :active-name="name" @on-select="changeMenu">
+        <MenuItem name="行程简介">
           <Icon type="ios-paper" />
           行程简介
         </MenuItem>
-        <MenuItem name="2">
+        <MenuItem name="行程详情">
           <Icon type="ios-people" />
           行程详情
         </MenuItem>
@@ -52,6 +55,7 @@
         places:[],
         days:0,
         places_name:"",
+        name:'行程简介',//面包屑导航名
         msg:'',
         swt:true
       }
@@ -85,7 +89,8 @@
         })
       },
       changeMenu(name){
-        this.swt = name === "1";
+        this.name=name;
+        this.swt = name === "行程简介";
       }
     }
   }
