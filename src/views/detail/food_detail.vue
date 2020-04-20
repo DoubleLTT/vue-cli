@@ -1,6 +1,5 @@
 <template>
   <div>
-    <NavBar></NavBar>
     <p style="padding: 20px 0 0 20px;cursor: pointer" ><router-link to="/">首页 &gt;</router-link></p>
     <Row v-for="(item,index) in details" :key="index" style="padding-top: 10px;" type="flex" justify="space-around">
       <i-col span="11">
@@ -18,7 +17,6 @@
 
 <script>
   import {getFoodDetail} from "../../service/api";
-  import NavBar from '../navbar/navbar'
     export default {
         data (){
           return{
@@ -50,7 +48,7 @@
               ]
           }
         },
-      components:{NavBar},
+      components:{},
       mounted() {
         this.FoodDetail();
       },

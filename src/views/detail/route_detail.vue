@@ -6,31 +6,31 @@
         <BreadcrumbItem to="/Route"><span style="color: #2d8cf0;">行程</span></BreadcrumbItem>
         <BreadcrumbItem>{{name}}</BreadcrumbItem>
       </Breadcrumb>
-      <Menu mode="horizontal" theme="light" :active-name="name" @on-select="changeMenu">
-        <MenuItem name="行程简介">
-          <Icon type="ios-paper" />
-          行程简介
-        </MenuItem>
-        <MenuItem name="行程详情">
-          <Icon type="ios-people" />
-          行程详情
-        </MenuItem>
-      </Menu>
-      <div v-if="swt" v-for="(item,index) in details" :key="index" class="introduce">
+<!--      <Menu mode="horizontal" theme="light" :active-name="name" @on-select="changeMenu">-->
+<!--        <MenuItem name="行程简介">-->
+<!--          <Icon type="ios-paper" />-->
+<!--          行程简介-->
+<!--        </MenuItem>-->
+<!--        <MenuItem name="行程详情">-->
+<!--          <Icon type="ios-people" />-->
+<!--          行程详情-->
+<!--        </MenuItem>-->
+<!--      </Menu>-->
+      <div v-for="(item,index) in details" :key="index" class="introduce">
         <h1>{{item.title}}</h1>
         <p>天数：<span>{{item.day}}</span>  观光地：<span>{{item.num}}</span>  全程：<span>{{item.distance}}</span></p>
         <p><span style="color: #999;">包含景点：</span>{{places_name}}</p>
         <p><span style="color: #999;">行程标签：</span>{{item.ps}}</p>
         <p>{{item.des}}</p>
       </div>
-      <div v-else class="details">
+      <div class="details">
         <h2>行程详情</h2>
         <div v-for="n in days">
           <h3>第{{n}}天</h3>
           <Timeline style="margin-top: 20px">
             <TimelineItem v-for="(item,index) in places[n-1]" :key="index">
               <div style="float: right;width:160px;height:160px;overflow: hidden;margin-left: 80px;">
-                <img :src=item.url style="width: 100%;height: 100%;">
+                <img :src=item.url title="查看景点" style="width: 100%;height: 100%;cursor: pointer" @click="goPlace(item.id)">
               </div>
               <h2>{{item.name}}</h2>
               <p>游玩指南：{{item.des}}</p>
@@ -87,6 +87,9 @@
             alert(res.msg)
           }
         })
+      },
+      goPlace(id){
+        this.$router.push({name:'PlaceDetail',path:'/PlaceDetail',query:{id:id} })
       },
       changeMenu(name){
         this.name=name;

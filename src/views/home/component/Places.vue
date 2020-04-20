@@ -6,13 +6,13 @@
             <h4 style=" color: #2db7f5;">景点搜索</h4>
             <p>
               <span>级别</span>
-              <i-select v-model="model1" style="width:70%;" size="small" placeholder="所有" @on-change="classSearch">
+              <i-select v-model="searchList.star" style="width:70%;" size="small" placeholder="所有" @on-change="classSearch">
                 <i-option v-for="(item,index) in star" :value="item.value" :key="index">{{ item.label }}</i-option>
               </i-select>
             </p>
             <p>
               <span>区域</span>
-              <i-select v-model="model1" style="width:70%;" size="small" placeholder="区(市)县" @on-change="areaSearch">
+              <i-select v-model="searchList.area" style="width:70%;" size="small" placeholder="区(市)县" @on-change="areaSearch">
                 <i-option v-for="(item,index) in area" :value="item.value" :key="index">{{ item.label }}</i-option>
               </i-select>
             </p>
@@ -158,6 +158,7 @@
                 this.place_json=res.pics;
               }else{
                 this.error_msg="没有数据";
+                this.place_json=[];
               }
         })
        },

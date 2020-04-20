@@ -9,7 +9,7 @@ include("crossAllow.php");
 
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "123456";
 $dbname = "travel_data";
 // 创建连接
 $conn = mysqli_connect($servername, $username, $password,$dbname);

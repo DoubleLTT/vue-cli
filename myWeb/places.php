@@ -18,9 +18,7 @@ class Place{
     public $url; //图片地址
 }
 class PlaceDetail extends Place{
-    public $detail_des;
-    public $article; //游记
-    public $says;//评价数量
+    public $open_time;
 }
 function getPics($item,$row){
     $item -> id = $row['id'];
@@ -38,6 +36,7 @@ function getPicsDetail($item,$row){
     $item -> name = $row['name'];
     $item -> area = $row['area'];
     $item -> url = $row['img'];
+    $item -> open_time = $row['open_time'];
     return $item;
 }
 $action=$_POST['action'];

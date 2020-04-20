@@ -5,6 +5,7 @@ import Home from '../views/home/home'
 import Place from '../views/home/component/Places'
 import Food from '../views/home/component/Foods'
 import Route from '../views/home/component/Routes'
+import Advice from '../views/home/component/Advice'
 import PlaceDetail from '../views/detail/place_detail'
 import FoodDetail from '../views/detail/food_detail'
 import RouteDetail from '../views/detail/route_detail'
@@ -49,6 +50,11 @@ export default new Router({
       path: '/RouteDetail',
       name: 'RouteDetail',
       component: RouteDetail
+    },
+    {
+      path: '/Advice',
+      name: 'Advice',
+      component: Advice
     },
     {
       path: '/Login',

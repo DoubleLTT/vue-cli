@@ -10,13 +10,20 @@ include ("connect.php");
 
 $name=$_POST['name'];
 $password=$_POST['password'];
+$email=$_POST['mail'];
 $res=['valid'=>false,'msg'=>''];
-$sql="insert into users (name,password) VALUES ('$name','$password')";
-$result = mysqli_query($conn,$sql);
-if($result){
-    $res['valid']=true;
-    $res['msg']='注册成功！';
+$sql1="select name from cd_users WHERE name='$name' ";
+$result1 = mysqli_query($conn,$sql1);
+if(mysqli_num_rows($result1) > 0){
+    $res['msg']='注册失败，该用户名已存在！';
 }else{
-    $res['msg']='注册失败！';
+    $sql="insert into cd_users (name,password,email) VALUES ('$name','$password','$email')";
+    $result = mysqli_query($conn,$sql);
+    if($result){
+        $res['valid']=true;
+        $res['msg']='注册成功！';
+    }else{
+        $res['msg']='注册失败,请稍后重试！';
+    }
 }
 echo json_encode($res);
