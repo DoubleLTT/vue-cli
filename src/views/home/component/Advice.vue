@@ -29,6 +29,9 @@
               <ListItemMeta avatar="../../../../static/blog/comments1.jpg" :title="item.name" :description="item.title" />
               <span class="time">发表于{{item.time}}</span>
               <template slot="action">
+                <li v-if="swt">
+                  <span @click="deleteQuestion(item.id)"><a href="javascript:void(0)">删除</a></span>
+                </li>
                 <li>
                   <span @click="setComment(item.id,item.title)"><a href="javascript:void(0)">回复</a></span>
                 </li>
@@ -97,7 +100,7 @@
 </template>
 
 <script>
-  import {getQuestion,submitQuestion,submitComment,getComment} from "../../../service/api";
+  import {deleteQuestion,submitQuestion,submitComment,getComment} from "../../../service/api";
   export default {
         name: "Advice",
         data (){
@@ -110,6 +113,7 @@
             searchs:'',
             belongId:'',
             title:'',
+            swt:false,
             article_json:[],
             comment_json:[],
             comment_total:0,
@@ -171,6 +175,9 @@
         },
         getQuestions(){
           const name=this.$route.query.id;
+          if(sessionStorage.getItem('username')==='admin'){
+            this.swt = true
+          }
           if(name){
             this.$store.commit("getQuestions",{page:1,search:this.searchs,name:name});
           }else{
@@ -213,6 +220,16 @@
             }
           })
         },
+        deleteQuestion(id){
+          deleteQuestion(id).then(response=>{
+              let res=response.data;
+              if(res.valid){
+                this.$Message.success("删除成功！");
+              }else{
+                this.$Message.warning("删除失败！");
+              }
+            })
+        }
       },
       mounted() {
           this.getQuestions()

@@ -39,6 +39,9 @@ export const  submitQuestion=(name,ques)=>{
 export const  getQuestion=(page,ques,name)=>{
   return axios({method:'post',url:url+'articles.php',data:qs.stringify({action:'getQuestion',n:page,question:ques,name:name})})
 };
+export const  deleteQuestion=(id)=>{
+  return axios({method:'post',url:url+'comments.php',data:qs.stringify({action:'delQuestion',id:id})})
+};
 export const  submitComment=(belong,name,ques)=>{
   return axios({method:'post',url:url+'comments.php',data:qs.stringify({action:'submitComment',id:belong,name:name,comment:ques})})
 };
