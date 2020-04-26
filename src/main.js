@@ -9,12 +9,17 @@ import VueAxios from 'vue-axios'
 import qs from 'qs'
 import ViewUI from  'view-design'
 import 'view-design/dist/styles/iview.css';
-// import '../node_modules/bootstrap3/dist/css/bootstrap.css'
-// import '../node_modules/bootstrap3/dist/js/bootstrap.js'
-
+import VueAMap from 'vue-amap';
 Vue.config.productionTip = false;
 Vue.prototype.qs=qs;
 Vue.use(ViewUI,VueAxios,axios);
+Vue.use(VueAMap);
+VueAMap.initAMapApiLoader({
+  key: 'your amap key',
+  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor'],
+  // 默认高德 sdk 版本为 1.4.4
+  v: '1.4.4'
+});
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
